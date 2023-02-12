@@ -3,12 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var firebase = require('./config/firebase');
 
 var indexRouter = require('./routes/index');
 
 var app = express();
-database = firebase.database;
 
 const port = process.env.PORT || 8080
 
@@ -43,4 +41,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
