@@ -37,7 +37,7 @@ router.put('/:username/update_user', async function(req, res, next) {
     const email = req.body.email;
     const imageUrl = req.body.imageUrl;
     const user = await UserRepository.updateUserData(username, new_username, email, firstName, lastName, imageUrl);
-    res.send(user);
+    res.status(200).json(user);
 });
 
 module.exports = router;
