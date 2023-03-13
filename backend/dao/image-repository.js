@@ -6,11 +6,9 @@ const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
 const storageRef = ref(storage);
 
 /** 
- * 
- * @param {string} 
- */
+ * @param {string} filename
+ **/
 exports.uploadImage = async (file) => {
-    // 'file' comes from the Blob or File API
     const imageRef = ref(storage, file.originalname);
     try {
         await uploadBytes(imageRef, file.buffer);
