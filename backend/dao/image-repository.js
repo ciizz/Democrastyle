@@ -2,7 +2,8 @@ const { storage } = require('../config/firebase');
 const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
 const InputImage = require('../models/InputImage');
 const AWS = require('aws-sdk');
-const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
 
 const s3 = new AWS.S3({
     // accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
@@ -33,18 +34,17 @@ const s3 = new AWS.S3({
  * @param {string} filename
  * 
  */
-exports.uploadContentImageToS3 = async (inputImage, styleImage) => {
+exports.uploadContentImageToS3 = async (contentImage) => {
+    // generate unique file key for S3
+    const contentFileKey = uuidv4() + '-' + 'content.jpeg';
     // upload input image to s3
-    const inputImagePath = inputImage.path
-    const inputImageBlob = fs.readFileSync(inputImagePath)
     const uploadedInputImage = await s3.upload({
-        // Bucket: process.env.AWS_S3_CONTENT_BUCKET_NAME,
-        Bucket: 'democrastyle-input-images/content',
-        Key: inputImage.originalFilename,
-        Body: inputImageBlob,
+        Bucket: process.env.AWS_S3_CONTENT_BUCKET_NAME,
+        Key: contentFileKey,
+        Body: contentImage.buffer,
     }).promise()
 
-    console.log(uploadedInputImage)
+    return uploadedInputImage;
 }
 
 
@@ -52,18 +52,17 @@ exports.uploadContentImageToS3 = async (inputImage, styleImage) => {
  * @param {string} filename
  * 
  */
-exports.uploadStyleImageToS3 = async (inputImage, styleImage) => {
+exports.uploadStyleImageToS3 = async (styleImage) => {
+    // generate unique file key for S3
+    const styleFileKey = uuidv4() + '-' + styleImage.originalname + '-style.jpeg';
     // upload style image to s3
-    const styleImagePath = styleImage.path
-    const styleImageBlob = fs.readFileSync(styleImagePath)
     const uploadedStyleImage = await s3.upload({
-        // Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
-        Bucket: 'democrastyle-input-images/style',
-        Key: styleImage.originalFilename,
-        Body: styleImageBlob,
+        Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
+        Key: styleFileKey,
+        Body: styleImage.buffer,
     }).promise()
 
-    console.log(uploadedStyleImage)
+    return uploadedStyleImage;
 }
 
 /** 
@@ -92,4 +91,23 @@ exports.saveStyleImageToDB = async (image_S3_key, username) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+/**
+ */
+exports.performStyleTransfer = async (contentImageKey, styleImageKey) => {
+    const styleReqBody = {
+        "content": {
+          "key": contentImageKey,
+          "size": 1024
+        },
+        "style": {
+          "key": styleImageKey,
+          "size": 512,
+          "sampleMode": "scale"
+        }
+    }
+
+    const styleRes = await axios.post(process.env.STYLE_TRANSFER_API_URL, styleReqBody);
+    return styleRes;
 }
