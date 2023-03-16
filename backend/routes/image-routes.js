@@ -45,11 +45,12 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
         // await ImageRepository.saveContentImageToDB(contentImageKey, username);
         // await ImageRepository.saveStyleImageToDB(styleImageKey, username);
         const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey);
+        const stylizedImageURL = styleRes.data.url
         res.status(200).json({
             message: "Style transfer successful",
-            imageURL: styleRes.data.url
+            imageURL: stylizedImageURL
         });
-        // await ImageRepository.saveStylizedImageToDB(styleImageKey, username);
+        // await ImageRepository.saveStylizedImageToDB(stylizedImageURL, "example_user", styleImageKey, username);
     } catch (error) {
         next(error);
     }

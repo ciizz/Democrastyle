@@ -6,10 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 
 const s3 = new AWS.S3({
-    // accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
-    accessKeyId: 'AKIAREE2EBEFSWEKZCCO',
-    // secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
-    secretAccessKey: '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'
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
 });
 
 
@@ -31,7 +29,7 @@ const s3 = new AWS.S3({
 
 
 /**
- * @param {string} filename
+ * @param {string} contentImage
  * 
  */
 exports.uploadContentImageToS3 = async (contentImage) => {
@@ -49,12 +47,12 @@ exports.uploadContentImageToS3 = async (contentImage) => {
 
 
 /**
- * @param {string} filename
+ * @param {string} styleImage
  * 
  */
 exports.uploadStyleImageToS3 = async (styleImage) => {
     // generate unique file key for S3
-    const styleFileKey = uuidv4() + '-' + styleImage.originalname + '-style.jpeg';
+    const styleFileKey = uuidv4() + '-' + 'style.jpeg';
     // upload style image to s3
     const uploadedStyleImage = await s3.upload({
         Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
@@ -66,7 +64,8 @@ exports.uploadStyleImageToS3 = async (styleImage) => {
 }
 
 /** 
- * @param {string} filename
+ * @param {string} image_S3_key
+ * @param {string} username
  **/
 exports.saveContentImageToDB = async (image_S3_key, username) => {
     const contentImage = new InputImage(image_S3_key, username);
@@ -80,7 +79,8 @@ exports.saveContentImageToDB = async (image_S3_key, username) => {
 }
 
 /** 
- * @param {string} filename
+ * @param {string} image_S3_key
+ * @param {string} username
  **/
 exports.saveStyleImageToDB = async (image_S3_key, username) => {
     const styleImage = new InputImage(image_S3_key, username);
@@ -88,6 +88,23 @@ exports.saveStyleImageToDB = async (image_S3_key, username) => {
         const snapshot = await set(ref(db, 'styleImages/' + image_S3_key), styleImage);
         console.log(snapshot);
         return styleImage;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/**
+ * 
+ * @param {*} contentImageKey 
+ * @param {*} styleImageKey 
+ * @returns 
+ */
+exports.saveStylizedImageToDB = async (url, username, inputImageKey, styleImageKey) => {
+    const stylizedImage = new StylizedImage(url, username, inputImageKey, styleImageKey);
+    try {
+        const snapshot = await set(ref(db, 'stylizedImages/' + inputImageKey), stylizedImage);
+        console.log(snapshot);
+        return stylizedImage;
     } catch (error) {
         console.log(error);
     }
