@@ -8,7 +8,7 @@ const storageRef = ref(storage);
 /** 
  * @param {string} filename
  **/
-exports.uploadImage = async (file) => {
+exports.uploadFile= async (file) => {
     const imageRef = ref(storage, file.originalname);
     try {
         await uploadBytes(imageRef, file.buffer);
@@ -16,4 +16,12 @@ exports.uploadImage = async (file) => {
     } catch (error) {
         console.log(error);
     }
+}
+
+
+/**
+ * @param {string} filename
+ * 
+ */
+exports.performInference = async (inputImage, styleImage) => {
 }
