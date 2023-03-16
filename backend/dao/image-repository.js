@@ -1,13 +1,17 @@
-const { storage } = require('../config/firebase');
-const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+// const { storage } = require('../config/firebase');
+// const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+const { db } = require('../config/firebase');
+const { ref, set, get } = require("firebase/database");
 const InputImage = require('../models/InputImage');
-const AWS = require('aws-sdk');
+const StylizedImage = require('../models/StylizedImage');
+const { Upload } = require("@aws-sdk/lib-storage");
+const { S3 } = require("@aws-sdk/client-s3");
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 
-const s3 = new AWS.S3({
-    accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+const s3 = new S3({
+    region: "us-east-2"
+    // credentials are fetched from env variables
 });
 
 
@@ -17,7 +21,7 @@ const s3 = new AWS.S3({
 // /** 
 //  * @param {string} filename
 //  **/
-// exports.uploadFile= async (file) => {
+// exports.uploadFile = async (file) => {
 //     const imageRef = ref(storage, file.originalname);
 //     try {
 //         await uploadBytes(imageRef, file.buffer);
@@ -36,11 +40,14 @@ exports.uploadContentImageToS3 = async (contentImage) => {
     // generate unique file key for S3
     const contentFileKey = uuidv4() + '-' + 'content.jpeg';
     // upload input image to s3
-    const uploadedInputImage = await s3.upload({
-        Bucket: process.env.AWS_S3_CONTENT_BUCKET_NAME,
-        Key: contentFileKey,
-        Body: contentImage.buffer,
-    }).promise()
+    const uploadedInputImage = await new Upload({
+        client: s3,
+        params: {
+            Bucket: process.env.AWS_S3_CONTENT_BUCKET_NAME,
+            Key: contentFileKey,
+            Body: contentImage.buffer,
+        }
+    }).done();
 
     return uploadedInputImage;
 }
@@ -54,11 +61,14 @@ exports.uploadStyleImageToS3 = async (styleImage) => {
     // generate unique file key for S3
     const styleFileKey = uuidv4() + '-' + 'style.jpeg';
     // upload style image to s3
-    const uploadedStyleImage = await s3.upload({
-        Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
-        Key: styleFileKey,
-        Body: styleImage.buffer,
-    }).promise()
+    const uploadedStyleImage = await new Upload({
+        client: s3,
+        params: {
+            Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
+            Key: styleFileKey,
+            Body: styleImage.buffer,
+        }
+    }).done();
 
     return uploadedStyleImage;
 }
@@ -70,7 +80,7 @@ exports.uploadStyleImageToS3 = async (styleImage) => {
 exports.saveContentImageToDB = async (image_S3_key, username) => {
     const contentImage = new InputImage(image_S3_key, username);
     try {
-        const snapshot = await set(ref(db, 'contentImages/' + image_S3_keyame), contentImage);
+        const snapshot = await set(ref(db, 'contentImages/' + image_S3_key), contentImage);
         console.log(snapshot);
         return contentImage;
     } catch (error) {
@@ -95,14 +105,16 @@ exports.saveStyleImageToDB = async (image_S3_key, username) => {
 
 /**
  * 
+ * @param {*} url
+ * @param {*} username
  * @param {*} contentImageKey 
  * @param {*} styleImageKey 
  * @returns 
  */
-exports.saveStylizedImageToDB = async (url, username, inputImageKey, styleImageKey) => {
-    const stylizedImage = new StylizedImage(url, username, inputImageKey, styleImageKey);
+exports.saveStylizedImageToDB = async (S3_key, url, username, contentImageKey, styleImageKey) => {
+    const stylizedImage = new StylizedImage(S3_key, url, username, contentImageKey, styleImageKey);
     try {
-        const snapshot = await set(ref(db, 'stylizedImages/' + inputImageKey), stylizedImage);
+        const snapshot = await set(ref(db, 'stylizedImages/' + S3_key), stylizedImage);
         console.log(snapshot);
         return stylizedImage;
     } catch (error) {

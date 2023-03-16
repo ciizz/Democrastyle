@@ -1,5 +1,6 @@
 class StylizedImage {
-    constructor(url, username, inputImageKey, styleImageKey) {
+    constructor(S3_key, url, username, inputImageKey, styleImageKey) {
+        this.S3_key = S3_key;
         this.url = url;
         this.user = username;
         this.inputImage_S3_key= inputImageKey;
@@ -7,3 +8,5 @@ class StylizedImage {
         this.dateCreated = new Date();
     }
 }
+
+module.exports = StylizedImage;

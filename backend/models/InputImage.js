@@ -6,3 +6,5 @@ class InputImage {
         this.dateCreated = new Date();
     }
 }
+
+module.exports = InputImage;
