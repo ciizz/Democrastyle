@@ -2,13 +2,13 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 
-function Home() {
+function Inference() {
   return (
     <Container>
         <NavBar />
-        <h1>This is Home</h1>
+        <h1>This is Inference</h1>
     </Container>
   );
 }
 
-export default Home;
+export default Inference;
