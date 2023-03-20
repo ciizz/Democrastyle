@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Card, Button, Row, Col, Image, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Image } from 'react-bootstrap';
+// import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
@@ -8,8 +8,6 @@ import FileUpload from '../Components/FileUpload';
 function StyleTransfer() {
   const [contentImage, setContentImage] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
-  const [isContentImageUploaded, setIsContentImageUploaded] = useState(false);
-  const [isStyleImageUploaded, setIsStyleImageUploaded] = useState(false);
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
