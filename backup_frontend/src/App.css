@@ -1,0 +1,2900 @@
+/* Font copied in place by React Studio. Please check that your license for this font file permits embedding on a website. */
+@font-face {
+  font-family: 'Georgia-BoldItalic';
+  src: url('fonts/Georgia Bold Italic.ttf');
+}
+
+.font-georgiaBoldItalic {
+  font-family: 'Georgia-BoldItalic', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+}
+
+/* Font copied in place by React Studio. Please check that your license for this font file permits embedding on a website. */
+@font-face {
+  font-family: 'Georgia';
+  src: url('fonts/Georgia.ttf');
+}
+
+.font-georgia {
+  font-family: 'Georgia', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+}
+
+/* Font copied in place by React Studio. Please check that your license for this font file permits embedding on a website. */
+@font-face {
+  font-family: 'Georgia-Italic';
+  src: url('fonts/Georgia Italic.ttf');
+}
+
+.font-georgiaItalic {
+  font-family: 'Georgia-Italic', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+}
+
+.App { /* Base font style */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-size: 16.0px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgba(0, 0, 0, 0.8500);
+  background-color: #feffff;
+}
+
+.App .baseFont * { /* Base font style override for UI framework components */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-size: 16.0px;
+}
+
+.App .appBg {
+  background-color: #feffff;
+}
+
+.App .cardBg {
+  background-color: white;
+}
+
+.App .baseTextBg { /* Base text color as background */
+  background-color: rgba(0, 0, 0, 0.8500);
+}
+
+.App .secondaryTextColor {
+  color: rgba(0, 0, 0, 0.5000);
+}
+
+.App .secondaryTextBg {
+  background-color: rgba(0, 0, 0, 0.5000);
+}
+
+.App .primaryTextColor {
+  color: rgba(213, 213, 213, 0.2574);
+}
+
+.App .primaryBg {
+  background-color: rgba(213, 213, 213, 0.2574);
+}
+
+.App .highlightTextColor {
+  color: rgba(213, 213, 213, 0.5000);
+}
+
+.App .highlightBg {
+  background-color: rgba(213, 213, 213, 0.5000);
+}
+
+@media (display-mode: standalone) {
+  .App {
+    user-select: none;
+  }
+}
+
+/* Styles to customize the UI framework plugin (MUI, https://muicss.com) */
+.mui-btn {
+    padding-left: 0;
+    padding-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.mui-btn--primary {
+    background-color: rgba(213, 213, 213, 0.2574);
+}
+.mui-btn--primary:active, .mui-btn--primary:focus, .mui-btn--primary:hover {
+    background-color: rgba(217, 217, 217, 0.2574);
+}
+.mui-btn--accent {
+    background-color: rgba(213, 213, 213, 0.5000);
+}
+.mui-btn--accent:active, .mui-btn--accent:focus, .mui-btn--accent:hover {
+    background-color: rgba(217, 217, 217, 0.5000);
+}
+.mui-textfield {  /* Reset UI framework styling that affects layout */
+    margin-bottom: 0;
+}
+.mui-textfield>input, .mui-textfield>textarea {
+    font-size: inherit;
+}
+.mui-checkbox, .mui-radio {  /* Reset UI framework styling that affects layout */
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.mui-select {  /* Reset UI framework styling that affects layout */
+    padding-top: 0;
+    margin-bottom: 0;
+}
+.mui-btn+.mui-btn {  /* Reset UI framework styling that affects layout */
+    margin-left: 0;
+}
+.mui-btn--fab {  /* Reset UI framework styling that breaks compositing */
+    z-index: auto;
+}
+
+@media (min-width: 320px) {
+  .mui-container {
+    max-width: 320px;
+  }
+}
+@media (min-width: 568px) {
+  .mui-container {
+    max-width: 568px;
+  }
+}
+@media (min-width: 768px) {
+  .mui-container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .mui-container {
+    max-width: 1024px;
+  }
+}
+
+@keyframes fadeIn {
+    0%   { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+@keyframes slideIn_right {
+    0%   { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes slideIn_bottom {
+    0%   { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+/* System font classes */
+
+.App .systemFontRegular {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+}
+.App .systemFontBold {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-weight: 600;
+}
+.App .systemFontItalic {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-style: italic;
+}
+.App .systemFontBoldItalic {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* App-wide text styles specified in React Studio */
+
+.App .actionFont {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-size: 15.0px;
+  font-weight: 400;
+}
+.App .actionFont * {
+  font-size: 15.0px;
+}
+.App .headlineFont {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-size: 20.0px;
+  font-weight: 600;
+}
+.App .headlineFont * {
+  font-size: 20.0px;
+}
+.App .navBar {
+  background-color: rgba(213, 213, 213, 0.2574);
+  color: black;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50px;
+  min-height: 50px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", sans-serif;
+  font-size: 18px;
+}
+
+.App .navBar a {
+  color: black;
+}
+
+.App .navBar .title {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  padding: 4px;
+}
+
+.App .navBar .backBtn {
+  position: absolute;
+  padding: 4px;
+  margin-left: 14px;
+  cursor: pointer;
+}
+
+.App .navBar > div {
+  margin-top: 7px;
+}
+
+.App {
+  --tab-bar-height: 54px;
+}
+@media (display-mode: standalone) {
+  .App {
+    --tab-bar-height: 90px;
+  }
+}
+.App .tabBar {
+  height: var(--tab-bar-height);
+  display: flex;
+  flex-direction: row;
+  pointer-events: auto;
+  z-index: 9999;
+}
+.App .tabBar > * {
+  flex: 1 0 auto;
+  text-align: center;
+  cursor: pointer;
+}
+.App .tabBar div {
+  box-sizing: border-box;
+  font-size: 13px; /* default size for tab bar text */
+  line-height: 15px;
+}
+@media (max-width: 767px) {
+  .App .tabBar div {
+    font-size: 11px; /* small screen size for tab bar text */
+    line-height: 13px;
+  }
+}
+.App .tabBar img {
+  height: 24px;
+  padding-top: 6px;
+}
+.App .tabBarMenu {
+  overflow: hidden;
+}
+.App .tabBarPageContent {
+  overflow: scroll;
+  flex: 1;
+}
+.App .tabBarPageContent > .AppScreen {
+  position: relative;
+  overflow: scroll;
+}
+.App .tabBarPageContent > .AppScreen > .background {
+  position: fixed;
+  left: auto;
+  top: auto;
+  height: calc(100% - var(--tab-bar-height));
+}
+.App .tabBarPageContent > .AppScreen > .navBarContainer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.App .tabBarPageContent > .AppScreen > .navBarContainer > .navBar {
+  position: fixed;
+  left: auto;
+  top: auto;
+}
+@media (min-width: 568px) {
+  .App .navBar {
+    height: 50px;
+    min-height: 50px;
+  }
+  .App .navBar > div {
+    margin-top: 7px;
+  }
+}
+@media (min-width: 768px) {
+  .App .navBar {
+    height: 50px;
+    min-height: 50px;
+  }
+  .App .navBar > div {
+    margin-top: 7px;
+  }
+}
+@media (min-width: 1024px) {
+  .App .navBar {
+    height: 50px;
+    min-height: 50px;
+  }
+  .App .navBar > div {
+    margin-top: 7px;
+  }
+}
+.AppScreen {
+  padding-left: 0;
+  padding-right: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}
+
+.App .background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.App .layoutFlow {
+  position: relative;
+  width: 100%;
+  pointer-events: none;
+}
+.App .layoutFlow:before {  /* Prevent margin collapse */
+  content: "";
+  display: table;
+  clear: both;
+}
+.App .layoutFlow .flowRow {
+  position: relative;
+  width: 100%;
+}
+
+.App .screenFgContainer {
+  /* Items in the foreground group within a screen are placed with fixed positioning */
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.App .foreground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.App ul {
+  margin: 0;
+  padding: 0;
+}
+.App li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  position: relative;
+}
+.App .hasNestedComps {
+  position: relative;
+}
+.App .hasNestedComps:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.App .hasNestedComps .background {
+  position: absolute;
+}
+.App .hasNestedComps .layoutFlow {
+  position: relative;
+}
+.App .bottomAlignedContent {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.App .blockInputOverlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: auto;
+  z-index: 99999999;
+}
+
+.App .marker {
+  width: 0px;
+  height: 0px;
+}
+
+.App .drawer {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+
+.App .drawerOpen {
+  transform: translateX(0%);
+  transition: 0.3s;
+}
+
+.App .drawerClosedLeft {
+  transform: translateX(-100%);
+  transition: 0.3s;
+}
+
+.App .drawerClosedRight {
+  transform: translateX(100%);
+  transition: 0.3s;
+}
+
+.App .drawerContent {
+  position: fixed;
+  height: 100%;
+  overflow: hidden;
+}
+
+.App .drawerContent > * {
+  height: 100%;
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ExploreScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .ExploreScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .ExploreScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .ExploreScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ExploreScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ExploreScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .ExploreScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ExploreScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ExploreScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ExploreScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ExploreScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ExploreScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ExploreScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    position: absolute;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .ExploreScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .ExploreScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .ExploreScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .LoginScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .LoginScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .LoginScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .LoginScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .LoginScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .LoginScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .LoginScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .LoginScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 82px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 200px;
+  }
+  
+@media (min-width: 568px) {
+  .LoginScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 82px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 200px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .LoginScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 82px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 199px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 82px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 199px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 50px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 200px;
+  }
+  
+@media (min-width: 568px) {
+  .LoginScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 50px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 200px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .LoginScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 50px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 199px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 50px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 199px;
+  }
+  
+}
+
+.LoginScreen .elButton button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.LoginScreen .elButton button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 58px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elButton > * { 
+  width: 200px;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .LoginScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 58px;
+    width: 200px;
+    margin-left: calc(50.0% - 100px);
+  }
+  .LoginScreen > .layoutFlow > .elButton > * { 
+  width: 200px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .LoginScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 58px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elButton > * { 
+  width: 199px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 58px;
+    width: 199px;
+    margin-left: calc(50.0% - 99px);
+  }
+  .LoginScreen > .layoutFlow > .elButton > * { 
+  width: 199px;
+  height: 35px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 41px;
+    width: 170px;
+    margin-left: calc(50.0% - 85px);
+  }
+  .LoginScreen > .layoutFlow > .elText > * { 
+  width: 170px;
+  }
+  
+@media (min-width: 568px) {
+  .LoginScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 41px;
+    width: 169px;
+    margin-left: calc(50.0% - 85px);
+  }
+  .LoginScreen > .layoutFlow > .elText > * { 
+  width: 169px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .LoginScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 40px;
+    width: 168px;
+    margin-left: calc(50.0% - 84px);
+  }
+  .LoginScreen > .layoutFlow > .elText > * { 
+  width: 168px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 40px;
+    width: 168px;
+    margin-left: calc(50.0% - 84px);
+  }
+  .LoginScreen > .layoutFlow > .elText > * { 
+  width: 168px;
+  }
+  
+}
+
+.LoginScreen .elIconButton {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.LoginScreen .elIconButton:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .screenFgContainer > .foreground > .elIconButton {
+    position: absolute;
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+@media (min-width: 568px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+@media (min-width: 768px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .LoginScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    position: absolute;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .LoginScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .SignupScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .SignupScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .SignupScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .SignupScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .SignupScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .SignupScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .SignupScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .SignupScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .layoutFlow > .elFieldName {
+    position: relative;
+    margin-top: 89px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldName > * { 
+  width: 226px;
+  }
+  
+@media (min-width: 568px) {
+  .SignupScreen > .layoutFlow > .elFieldName {
+    position: relative;
+    margin-top: 89px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldName > * { 
+  width: 226px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .SignupScreen > .layoutFlow > .elFieldName {
+    position: relative;
+    margin-top: 88px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldName > * { 
+  width: 225px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .layoutFlow > .elFieldName {
+    position: relative;
+    margin-top: 88px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldName > * { 
+  width: 225px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 35px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 226px;
+  }
+  
+@media (min-width: 568px) {
+  .SignupScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 35px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 226px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .SignupScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 35px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 225px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .layoutFlow > .elFieldEmail {
+    position: relative;
+    margin-top: 35px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldEmail > * { 
+  width: 225px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 41px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 226px;
+  }
+  
+@media (min-width: 568px) {
+  .SignupScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 41px;
+    width: 226px;
+    margin-left: calc(50.0% - 113px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 226px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .SignupScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 40px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 225px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .layoutFlow > .elFieldPassword {
+    position: relative;
+    margin-top: 40px;
+    width: 225px;
+    margin-left: calc(50.0% - 112px);
+  }
+  .SignupScreen > .layoutFlow > .elFieldPassword > * { 
+  width: 225px;
+  }
+  
+}
+
+.SignupScreen .elButtonCreate button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.SignupScreen .elButtonCreate button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .layoutFlow > .elButtonCreate {
+    line-height: 35px;
+    position: relative;
+    margin-top: 57px;
+    width: 155px;
+    margin-left: calc(50.2% - 78px);
+  }
+  .SignupScreen > .layoutFlow > .elButtonCreate > * { 
+  width: 155px;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .SignupScreen > .layoutFlow > .elButtonCreate {
+    line-height: 35px;
+    position: relative;
+    margin-top: 57px;
+    width: 155px;
+    margin-left: calc(50.1% - 78px);
+  }
+  .SignupScreen > .layoutFlow > .elButtonCreate > * { 
+  width: 155px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .SignupScreen > .layoutFlow > .elButtonCreate {
+    line-height: 35px;
+    position: relative;
+    margin-top: 56px;
+    width: 154px;
+    margin-left: calc(50.1% - 77px);
+  }
+  .SignupScreen > .layoutFlow > .elButtonCreate > * { 
+  width: 154px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .layoutFlow > .elButtonCreate {
+    line-height: 35px;
+    position: relative;
+    margin-top: 56px;
+    width: 154px;
+    margin-left: calc(50.0% - 77px);
+  }
+  .SignupScreen > .layoutFlow > .elButtonCreate > * { 
+  width: 154px;
+  height: 35px;
+  }
+  
+}
+
+.SignupScreen .elIconButton {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.SignupScreen .elIconButton:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .screenFgContainer > .foreground > .elIconButton {
+    position: absolute;
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+@media (min-width: 568px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+@media (min-width: 768px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elIconButton {
+    left: 20px;
+    top: 6px;
+    width: 41px;
+    height: 36px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .SignupScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    position: absolute;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .SignupScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+
+/* This component has a fixed-size layout */
+  .HomeImages {
+    min-height: 422px;  /* Minimum height to ensure layout flow is visible */
+    width: 100%; /* This component was designed using a width of 258px */
+    height: 100%;
+  }
+  .HomeImages > .background > .containerMinHeight {
+    min-height: 422px;
+  }
+
+
+  .HomeImages > .layoutFlow > .elImage3 {
+    position: relative;
+    margin-top: 40px;
+    width: 135px;
+    margin-left: 8px;
+  }
+  .HomeImages > .layoutFlow > .elImage3 > * { 
+  width: 135px;
+  height: 170px;
+  }
+  
+
+
+  .HomeImages > .foreground > .elImage4 {
+    position: absolute;
+    left: 8px;
+    top: 220px;
+    width: 135px;
+    height: 170px;
+  }
+
+/* This component has a fixed-size layout */
+  .HomeImages2 {
+    min-height: 442px;  /* This component has a fixed size */
+    overflow: hidden;
+    width: 100%; /* This component was designed using a width of 277px */
+    height: 100%;
+  }
+  .HomeImages2 > .background > .containerMinHeight {
+    min-height: 442px;
+  }
+
+
+  .HomeImages2 > .foreground > .elImage5 {
+    position: absolute;
+    left: 8px;
+    top: 40px;
+    width: 135px;
+    height: 170px;
+  }
+
+
+  .HomeImages2 > .foreground > .elImage6 {
+    position: absolute;
+    left: 8px;
+    top: 220px;
+    width: 135px;
+    height: 170px;
+  }
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .WelcomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .layoutFlow > .elText3 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 86px;
+    width: 238px;
+    margin-left: calc(49.8% - 119px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText3 > * { 
+  width: 238px;
+  }
+  
+@media (min-width: 568px) {
+  .WelcomeScreen > .layoutFlow > .elText3 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 86px;
+    width: 238px;
+    margin-left: calc(49.9% - 119px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText3 > * { 
+  width: 238px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .layoutFlow > .elText3 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 86px;
+    width: 237px;
+    margin-left: calc(49.9% - 118px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText3 > * { 
+  width: 237px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elText3 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 86px;
+    width: 237px;
+    margin-left: calc(50.0% - 118px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText3 > * { 
+  width: 237px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 27px;
+    width: 280px;
+    margin-left: calc(50.0% - 140px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText > * { 
+  width: 280px;
+  }
+  
+@media (min-width: 568px) {
+  .WelcomeScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 27px;
+    width: 279px;
+    margin-left: calc(50.0% - 140px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText > * { 
+  width: 279px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 27px;
+    width: 278px;
+    margin-left: calc(50.0% - 139px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText > * { 
+  width: 278px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 27px;
+    width: 278px;
+    margin-left: calc(50.0% - 139px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText > * { 
+  width: 278px;
+  }
+  
+}
+
+  .WelcomeScreen > .layoutFlow > .elColumns > div {
+    display: flex;
+    flex-direction: row;
+    height: auto;  /* This element is in scroll flow */
+  }
+
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col0 {
+    flex: 50.0;  /* Base weight for this column */
+    position: relative;
+  }
+
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col0 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 1023px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col0 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col0 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 567px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col0 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col1 {
+    flex: 50.0;  /* Base weight for this column */
+    position: relative;
+  }
+
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col1 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 1023px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col1 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 767px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col1 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+@media (max-width: 567px) {
+  .WelcomeScreen > .layoutFlow > .elColumns > div > .col1 {
+    flex: 50.0;  /* Column width for this screen format */
+    flex-basis: 0;  /* Ignore content size so that column widths will determine size */
+    margin-left: 0.0px;
+    margin-top: 0.0px;
+    width: 0px;
+    min-height: auto;
+  }
+
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .layoutFlow > .elColumns {
+    position: relative;
+    margin-top: 37px;
+    width: 272px;
+    margin-left: calc(50.0% - 136px);
+  }
+  .WelcomeScreen > .layoutFlow > .elColumns > * { 
+  width: 272px;
+  }
+  
+@media (min-width: 568px) {
+  .WelcomeScreen > .layoutFlow > .elColumns {
+    position: relative;
+    margin-top: 37px;
+    width: 272px;
+    margin-left: calc(50.0% - 136px);
+  }
+  .WelcomeScreen > .layoutFlow > .elColumns > * { 
+  width: 272px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .layoutFlow > .elColumns {
+    position: relative;
+    margin-top: 37px;
+    width: 271px;
+    margin-left: calc(50.0% - 136px);
+  }
+  .WelcomeScreen > .layoutFlow > .elColumns > * { 
+  width: 271px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elColumns {
+    position: relative;
+    margin-top: 37px;
+    width: 271px;
+    margin-left: calc(50.0% - 136px);
+  }
+  .WelcomeScreen > .layoutFlow > .elColumns > * { 
+  width: 271px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .layoutFlow > .elText4 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+    width: 238px;
+    margin-left: calc(50.0% - 119px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText4 > * { 
+  width: 238px;
+  }
+  
+@media (min-width: 568px) {
+  .WelcomeScreen > .layoutFlow > .elText4 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+    width: 238px;
+    margin-left: calc(50.0% - 119px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText4 > * { 
+  width: 238px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .layoutFlow > .elText4 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 20px;
+    width: 237px;
+    margin-left: calc(50.0% - 118px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText4 > * { 
+  width: 237px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elText4 {
+    overflow: hidden;
+    position: relative;
+    margin-top: -12px;
+    width: 237px;
+    margin-left: calc(50.1% - 118px);
+  }
+  .WelcomeScreen > .layoutFlow > .elText4 > * { 
+  width: 237px;
+  }
+  
+}
+
+.WelcomeScreen .elIconButton button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.WelcomeScreen .elIconButton button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .layoutFlow > .elIconButton {
+    position: relative;
+    margin-top: 10px;
+    width: 41px;
+    margin-left: calc(50.0% - 20px);
+  }
+  .WelcomeScreen > .layoutFlow > .elIconButton > * { 
+  width: 41px;
+  height: 28px;
+  }
+  
+@media (min-width: 568px) {
+  .WelcomeScreen > .layoutFlow > .elIconButton {
+    position: relative;
+    margin-top: 10px;
+    width: 41px;
+    margin-left: calc(50.0% - 20px);
+  }
+  .WelcomeScreen > .layoutFlow > .elIconButton > * { 
+  width: 41px;
+  height: 28px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .layoutFlow > .elIconButton {
+    position: relative;
+    margin-top: 10px;
+    width: 41px;
+    margin-left: calc(50.0% - 20px);
+  }
+  .WelcomeScreen > .layoutFlow > .elIconButton > * { 
+  width: 41px;
+  height: 28px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .layoutFlow > .elIconButton {
+    position: relative;
+    margin-top: 10px;
+    width: 41px;
+    margin-left: calc(50.0% - 20px);
+  }
+  .WelcomeScreen > .layoutFlow > .elIconButton > * { 
+  width: 41px;
+  height: 28px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    position: absolute;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elText2 {
+    overflow: hidden;
+    left: -5px;
+    right: 5px;
+    top: 15px;
+    width: calc(100.0% - -5px - 5px);
+    height: 26px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextlogin {
+    overflow: hidden;
+    position: fixed;
+    right: 50px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextlogin {
+    overflow: hidden;
+    right: 50px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextlogin {
+    overflow: hidden;
+    right: 50px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextlogin {
+    overflow: hidden;
+    right: 50px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextsignup {
+    overflow: hidden;
+    position: fixed;
+    right: 150px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+@media (min-width: 568px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextsignup {
+    overflow: hidden;
+    right: 150px;
+    top: 15px;
+    width: 82px;
+    height: 26px;
+  }
+}
+@media (min-width: 768px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextsignup {
+    overflow: hidden;
+    right: 149px;
+    top: 15px;
+    width: 81px;
+    height: 26px;
+  }
+}
+@media (min-width: 1024px) {
+  .WelcomeScreen > .screenFgContainer > .foreground > .elTextsignup {
+    overflow: hidden;
+    right: 149px;
+    top: 15px;
+    width: 81px;
+    height: 26px;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .HomeScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .HomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .HomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .HomeScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .HomeScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .HomeScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .HomeScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .HomeScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .HomeScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .HomeScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .HomeScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .HomeScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+.HomeScreen .elButton button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.HomeScreen .elButton button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .HomeScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 215px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100.0% - 20px);
+  }
+  .HomeScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .HomeScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 215px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100.0% - 20px);
+  }
+  .HomeScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .HomeScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 214px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100.0% - 20px);
+  }
+  .HomeScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .HomeScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 214px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: calc(100.0% - 20px);
+  }
+  .HomeScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .ImageGenScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 91px;
+    margin-left: 14px;
+    margin-right: 166px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText > * { 
+    width: 100%;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 91px;
+    margin-left: 14px;
+    margin-right: 166px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText > * { 
+    width: 100%;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 90px;
+    margin-left: 14px;
+    margin-right: 165px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText > * { 
+    width: 100%;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 90px;
+    margin-left: 14px;
+    margin-right: 165px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText > * { 
+    width: 100%;
+  }
+  
+}
+
+.ImageGenScreen .elButton button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.ImageGenScreen .elButton button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: -31px;
+    margin-left: 175px;
+    margin-right: 5px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: -31px;
+    margin-left: 175px;
+    margin-right: 5px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: -31px;
+    margin-left: 174px;
+    margin-right: 5px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: -31px;
+    margin-left: 174px;
+    margin-right: 5px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elText2 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 44px;
+    margin-left: 14px;
+    margin-right: 175px;
+    width: calc(100.0% - 189px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText2 > * { 
+    width: 100%;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elText2 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 44px;
+    margin-left: 14px;
+    margin-right: 175px;
+    width: calc(100.0% - 189px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText2 > * { 
+    width: 100%;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elText2 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 44px;
+    margin-left: 14px;
+    margin-right: 174px;
+    width: calc(100.0% - 188px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText2 > * { 
+    width: 100%;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elText2 {
+    overflow: hidden;
+    position: relative;
+    margin-top: 44px;
+    margin-left: 14px;
+    margin-right: 174px;
+    width: calc(100.0% - 188px);
+  }
+  .ImageGenScreen > .layoutFlow > .elText2 > * { 
+    width: 100%;
+  }
+  
+}
+
+.ImageGenScreen .elButton2 button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.ImageGenScreen .elButton2 button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -29px;
+    margin-left: 175px;
+    margin-right: 5px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -29px;
+    margin-left: 175px;
+    margin-right: 5px;
+    width: calc(100.0% - 180px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -29px;
+    margin-left: 174px;
+    margin-right: 5px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -29px;
+    margin-left: 174px;
+    margin-right: 5px;
+    width: calc(100.0% - 179px);
+  }
+  .ImageGenScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+
+.ImageGenScreen .elButton3 button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.ImageGenScreen .elButton3 button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenScreen > .layoutFlow > .elButton3 {
+    line-height: 35px;
+    position: relative;
+    margin-top: 96px;
+    width: 145px;
+    margin-left: 96px;
+  }
+  .ImageGenScreen > .layoutFlow > .elButton3 > * { 
+  width: 145px;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenScreen > .layoutFlow > .elButton3 {
+    line-height: 35px;
+    position: relative;
+    margin-top: 96px;
+    width: 145px;
+    margin-left: 96px;
+  }
+  .ImageGenScreen > .layoutFlow > .elButton3 > * { 
+  width: 145px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenScreen > .layoutFlow > .elButton3 {
+    line-height: 35px;
+    position: relative;
+    margin-top: 96px;
+    width: 144px;
+    margin-left: 96px;
+  }
+  .ImageGenScreen > .layoutFlow > .elButton3 > * { 
+  width: 144px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenScreen > .layoutFlow > .elButton3 {
+    line-height: 35px;
+    position: relative;
+    margin-top: 96px;
+    width: 144px;
+    margin-left: 96px;
+  }
+  .ImageGenScreen > .layoutFlow > .elButton3 > * { 
+  width: 144px;
+  height: 35px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .background > .elBackground {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .background > .elBackground {
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    width: 100.0%;
+    height: 100%;
+  }
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer {
+    position: relative;
+    margin-top: 0px;
+    width: 320px;
+    margin-left: 0px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elSpacer > * { 
+  width: 320px;
+  height: 50px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 57px;
+    width: 238px;
+    margin-left: 37px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elText > * { 
+  width: 238px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 57px;
+    width: 238px;
+    margin-left: 37px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elText > * { 
+  width: 238px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 56px;
+    width: 237px;
+    margin-left: 37px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elText > * { 
+  width: 237px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elText {
+    overflow: hidden;
+    position: relative;
+    margin-top: 56px;
+    width: 237px;
+    margin-left: 37px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elText > * { 
+  width: 237px;
+  }
+  
+}
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .layoutFlow > .elImage {
+    position: relative;
+    margin-top: 68px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: calc(100.0% - 0px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elImage > * { 
+    width: 100%;
+  height: 165px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elImage {
+    position: relative;
+    margin-top: 68px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: calc(100.0% - 0px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elImage > * { 
+    width: 100%;
+  height: 165px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elImage {
+    position: relative;
+    margin-top: 68px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: calc(100.0% - 0px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elImage > * { 
+    width: 100%;
+  height: 164px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elImage {
+    position: relative;
+    margin-top: 68px;
+    margin-left: 0px;
+    margin-right: 0px;
+    width: calc(100.0% - 0px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elImage > * { 
+    width: 100%;
+  height: 164px;
+  }
+  
+}
+
+.ImageGenOptionsScreen .elButton button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.ImageGenOptionsScreen .elButton button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 61px;
+    width: 145px;
+    margin-left: 5px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton > * { 
+  width: 145px;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 61px;
+    width: 145px;
+    margin-left: 5px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton > * { 
+  width: 145px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 60px;
+    width: 144px;
+    margin-left: 5px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton > * { 
+  width: 144px;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton {
+    line-height: 35px;
+    position: relative;
+    margin-top: 60px;
+    width: 144px;
+    margin-left: 5px;
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton > * { 
+  width: 144px;
+  height: 35px;
+  }
+  
+}
+
+.ImageGenOptionsScreen .elButton2 button {
+  cursor: pointer;
+  border: 0.0px solid transparent;
+  border-radius: 2.3px;
+}
+
+.ImageGenOptionsScreen .elButton2 button:focus {
+  outline: none;
+}
+
+
+
+/* Narrowest size for this element's responsive layout */
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -34px;
+    margin-left: 168px;
+    margin-right: 5px;
+    width: calc(100.0% - 173px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+@media (min-width: 568px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -34px;
+    margin-left: 168px;
+    margin-right: 5px;
+    width: calc(100.0% - 173px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 768px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -34px;
+    margin-left: 167px;
+    margin-right: 5px;
+    width: calc(100.0% - 172px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+@media (min-width: 1024px) {
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 {
+    line-height: 35px;
+    position: relative;
+    margin-top: -34px;
+    margin-left: 167px;
+    margin-right: 5px;
+    width: calc(100.0% - 172px);
+  }
+  .ImageGenOptionsScreen > .layoutFlow > .elButton2 > * { 
+    width: 100%;
+  height: 35px;
+  }
+  
+}
+
