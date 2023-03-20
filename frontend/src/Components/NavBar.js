@@ -6,14 +6,14 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 const NavBar = () => {
     return (
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
             <Container>
                 <Navbar.Brand href="/Home">Home</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link href="/Explore">Explore</Nav.Link>
-                        <Nav.Link href="/Inference">Inference</Nav.Link>
+                        <Nav.Link href="/StyleTransfer">Style Transfer</Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
                             <NavDropdown.Item href="/Profile">Visit Profile</NavDropdown.Item>
                             <NavDropdown.Divider />

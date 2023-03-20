@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from './Pages/Home';
-import Inference from './Pages/Inference';
+import StyleTransfer from './Pages/StyleTransfer';
 import Explore from './Pages/Explore';
 import Profile from './Pages/Profile';
 import NotFound from './Pages/NotFound';
@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route exact path="/"><Home /></Route>
         <Route path="/Home"><Home /></Route>
-        <Route path="/Inference"><Inference /></Route>
+        <Route path="/StyleTransfer"><StyleTransfer /></Route>
         <Route path="/Explore"><Explore /></Route>
         <Route path="/Profile"><Profile /></Route>
         <Route path="/Result"><Result /></Route>
