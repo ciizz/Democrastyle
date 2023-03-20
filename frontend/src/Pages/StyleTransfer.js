@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Container, Card, Button, Row, Col, Image } from 'react-bootstrap';
+import { Container, Card, Button, Row, Col, Image, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
+import FileUpload from '../Components/FileUpload';
 
 function StyleTransfer() {
   const [contentImage, setContentImage] = useState(null);
@@ -12,17 +13,21 @@ function StyleTransfer() {
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setContentImage(imageUrl);
-    console.log("Uploaded content image.");
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setContentImage(imageUrl);
+    }
   };
 
   const handleStyleImageUpload = (event) => {
-    // TODO: Implement functionality for uploading style image
     const file = event.target.files[0];
     const imageUrl = URL.createObjectURL(file);
     setStyleImage(imageUrl);
-    console.log("Uploaded style image.");
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Submitted form.");
   };
 
   return (
@@ -44,17 +49,7 @@ function StyleTransfer() {
                     <Card.Text>
                       Upload an image you which to style.
                     </Card.Text>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleContentImageUpload(e)}
-                    />
-                    <Button
-                      variant="primary"
-                      onClick={e => setContentImage(null)}
-                    >
-                      Clear
-                    </Button>  
+                    <FileUpload handleSubmit={handleSubmit} onChange={handleContentImageUpload} />
                   </Col>
                 </Row>
                 <Row>
@@ -76,17 +71,7 @@ function StyleTransfer() {
                     <Card.Text>
                       Upload an image to be used as the style.
                     </Card.Text>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleStyleImageUpload(e)}
-                    />
-                    <Button
-                      variant="primary"
-                      onClick={e => setStyleImage(null)}
-                    >
-                      Clear
-                    </Button>  
+                    <FileUpload handleSubmit={handleSubmit} onChange={handleStyleImageUpload} />
                   </Col>
                 </Row>
                 <Row>
