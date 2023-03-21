@@ -1,27 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { Container, Row, Col, Spinner, Image } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 
-function Result() {
+function Result(props) {
 
-    const location = useLocation();
-    const contentImage = new URLSearchParams(location.search).get("contentImage");
-    const styleImage = new URLSearchParams(location.search).get("styleImage");
-    const contentImageName = new URLSearchParams(location.search).get("contentImageName");
-    const styleImageName = new URLSearchParams(location.search).get("styleImageName");
-    const user = new URLSearchParams(location.search).get("user");
+    const contentImage = props.contentImage;
+    const styleImage = props.styleImage;
+    const contentImageName = props.contentImageName;
+    const styleImageName = props.styleImageName;
+    const user = props.user;
     const [stylizedImage, setStylizedImage] = useState(null);
     const [serverError, setServerError] = useState(null);
 
     useEffect(() => {
-        const contentImageBlob = new Blob([contentImage], { type: 'image/jpeg' });
-        const styleImageBlob = new Blob([styleImage], { type: 'image/jpeg' });
-        console.log(contentImage);
         async function performStyleTransfer() {
             try {
-                let res = await APIService.performStyleTransfer(contentImageBlob, styleImageBlob, contentImageName, styleImageName, user);
+                let res = await APIService.performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user);
                 setStylizedImage(res.imageURL);
             } catch (err) {
                 setServerError(err);

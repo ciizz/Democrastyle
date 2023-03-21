@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
 import { Container, Card, Row, Col, Image, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 
 function StyleTransfer() {
+  const history = useHistory();
   const [contentImage, setContentImage] = useState(null);
   const [contentImageName, setContentImageName] = useState(null);
+  const [contentImageURL, setContentImageURL] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
   const [styleImageName, setStyleImageName] = useState(null);
+  const [styleImageURL, setStyleImageURL] = useState(null);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
     const name = file.name;
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setContentImage(imageUrl);
+      setContentImage(file);
       setContentImageName(name);
+      setContentImageURL(URL.createObjectURL(file));
     }
   };
 
@@ -26,15 +29,16 @@ function StyleTransfer() {
     const file = event.target.files[0];
     const name = file.name;
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setStyleImage(imageUrl);
+      setStyleImage(file);
       setStyleImageName(name);
+      setStyleImageURL(URL.createObjectURL(file));
     }
   };
 
-  const handleGenerateStyleTransfer = (contentImage, styleImage, user) => {
+  const handleGenerateStyleTransfer = () => {
     // Redirect to result page with message prop, image will start generating once rerouted there
-    window.location.href = "/Result?contentImage=" + contentImage + "&styleImage=" + styleImage + "&contentImageName=" + contentImageName + "&styleImageName=" + styleImageName + "&user=" + user;
+    // window.location.href = "/Result?contentImage=" + contentImage + "&styleImage=" + styleImage + "&contentImageName=" + contentImageName + "&styleImageName=" + styleImageName + "&user=" + user;
+    history.go('/Result', { contentImage: contentImage, styleImage: styleImage, contentImageName: contentImageName, styleImageName: styleImageName });
   };
 
   return (
@@ -61,7 +65,7 @@ function StyleTransfer() {
                 </Row>
                 <Row>
                   <Col>
-                    {contentImage && (<Image style={{ height: '200px' }} src={contentImage} fluid />)}
+                    {contentImageURL && (<Image style={{ height: '200px' }} src={contentImageURL} fluid />)}
                   </Col>
                 </Row>
               </Card.Body>
@@ -83,7 +87,7 @@ function StyleTransfer() {
                 </Row>
                 <Row>
                   <Col>
-                    {styleImage && (<Image style={{ height: '200px' }} src={styleImage} fluid />)}
+                    {styleImageURL && (<Image style={{ height: '200px' }} src={styleImageURL} fluid />)}
                   </Col>
                 </Row>
                   <Card.Text>
@@ -119,15 +123,26 @@ function StyleTransfer() {
           <Col>
           </Col>
           <Col style={{ textAlign: 'center' }}>
-            <Link>
-              <Button 
-              variant="primary" 
-              onClick={e => handleGenerateStyleTransfer(contentImage, styleImage, "ciz")}
-              disabled={isSubmitDisabled}
-              >
-                Generate Style Transfer
-              </Button>
-            </Link>
+            {/* <Router> */}
+              {/* <Link to={{
+                pathname: "/Result", 
+                state: {
+                  contentImage: contentImage,
+                  styleImage: styleImage, 
+                  contentImageName: contentImageName,
+                  syleImageName: styleImageName,
+                  user: "ciz"
+                }
+              }}> */}
+                <Button 
+                variant="primary" 
+                onClick={handleGenerateStyleTransfer}
+                disabled={isSubmitDisabled}
+                >
+                  Generate Style Transfer
+                </Button>
+              {/* </Link> */}
+            {/* </Router> */}
           </Col>
           <Col>
           </Col>
