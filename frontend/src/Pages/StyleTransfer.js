@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
-import { Container, Card, Row, Col, Image } from 'react-bootstrap';
-// import { Link } from 'react-router-dom';
+import { Container, Card, Row, Col, Image, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 
 function StyleTransfer() {
   const [contentImage, setContentImage] = useState(null);
+  const [contentImageName, setContentImageName] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
+  const [styleImageName, setStyleImageName] = useState(null);
+  const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
+    const name = file.name;
     if (file) {
       const imageUrl = URL.createObjectURL(file);
       setContentImage(imageUrl);
+      setContentImageName(name);
     }
   };
 
   const handleStyleImageUpload = (event) => {
     const file = event.target.files[0];
-    const imageUrl = URL.createObjectURL(file);
-    setStyleImage(imageUrl);
+    const name = file.name;
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setStyleImage(imageUrl);
+      setStyleImageName(name);
+    }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("Submitted form.");
+  const handleGenerateStyleTransfer = (contentImage, styleImage, user) => {
+    // Redirect to result page with message prop, image will start generating once rerouted there
+    window.location.href = "/Result?contentImage=" + contentImage + "&styleImage=" + styleImage + "&contentImageName=" + contentImageName + "&styleImageName=" + styleImageName + "&user=" + user;
   };
 
   return (
@@ -47,7 +56,7 @@ function StyleTransfer() {
                     <Card.Text>
                       Upload an image you which to style.
                     </Card.Text>
-                    <FileUpload handleSubmit={handleSubmit} onChange={handleContentImageUpload} />
+                    <FileUpload onChange={handleContentImageUpload} />
                   </Col>
                 </Row>
                 <Row>
@@ -69,7 +78,7 @@ function StyleTransfer() {
                     <Card.Text>
                       Upload an image to be used as the style.
                     </Card.Text>
-                    <FileUpload handleSubmit={handleSubmit} onChange={handleStyleImageUpload} />
+                    <FileUpload onChange={handleStyleImageUpload} />
                   </Col>
                 </Row>
                 <Row>
@@ -104,6 +113,23 @@ function StyleTransfer() {
                   </Row>
                 </Card.Body>
               </Card>
+          </Col>
+        </Row>
+        <Row style={{ marginTop: '40px' }}>
+          <Col>
+          </Col>
+          <Col style={{ textAlign: 'center' }}>
+            <Link>
+              <Button 
+              variant="primary" 
+              onClick={e => handleGenerateStyleTransfer(contentImage, styleImage, "ciz")}
+              disabled={isSubmitDisabled}
+              >
+                Generate Style Transfer
+              </Button>
+            </Link>
+          </Col>
+          <Col>
           </Col>
         </Row>
       </Container>

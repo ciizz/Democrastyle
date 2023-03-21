@@ -1,9 +1,9 @@
 import React from 'react';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 
 const FileUpload = (props) => {
     return (
-        <Form onSubmit={props.handleSubmit}>
+        <Form>
             <Form.Group>
                 <Row>
                     <Col>
@@ -11,12 +11,10 @@ const FileUpload = (props) => {
                         type='file'
                         id='image-file'
                         label='Choose File'
+                        name='images'
                         custom
                         onChange={props.onChange}
                     />
-                    </Col>
-                    <Col>
-                    <Button type="submit">Upload Image</Button>
                     </Col>
                 </Row>
             </Form.Group>
