@@ -34,14 +34,17 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
     } else if (req.files.length != 2) {
         res.status(400).json({ message: "Incorrect number of images" });
         return;
+    } else if (!req.body.user) {
+        res.status(400).json({ message: "Missing user" });
+        return;
     }
-    console.log("Performing inference...");
+
     try {
         const files = req.files;
-        console.log(files[0]);
         const contentImageFileName = req.body.contentImageName;
         var contentUploadRes = null;
         var styleUploadRes = null;
+        console.log("Uploading images...");
         if (files[0].originalname == contentImageFileName) {
             contentUploadRes = await ImageRepository.uploadContentImageToS3(files[0]);
             styleUploadRes = await ImageRepository.uploadStyleImageToS3(files[1]);
@@ -54,12 +57,14 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
             res.status(500).json({ message: "Image upload failed" });
             return;
         }
+        console.log("Images uploaded successfully");
 
         const contentImageKey = contentUploadRes.Key;
         const styleImageKey = styleUploadRes.Key;
         const username = req.body.user;
         // await ImageRepository.saveContentImageToDB(contentImageKey, username);
         // await ImageRepository.saveStyleImageToDB(styleImageKey, username);
+        console.log("Performing style transfer...");
         const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey);
         const stylizedImageKey = styleRes.data.id;
         const stylizedImageURL = styleRes.data.url;
@@ -71,7 +76,6 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
         });
     } catch (error) {
         next(error);
-        console.log(error);
     }
 });
 
