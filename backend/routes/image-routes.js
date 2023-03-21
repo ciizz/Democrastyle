@@ -21,9 +21,24 @@ router.post('/upload', upload.single("file"), async function(req, res, next) {
 // TODO: either rename each file from the frontend (this way they can have same name, won't matter for us),
 // or send key-value pairs with request indicating which file is which (content or style)
 router.post('/perform_inference', upload.array("images"), async function(req, res, next) {
+    // check if all params are present
+    if (!req.body.contentImageName) {
+        res.status(400).json({ message: "Missing content image name" });
+        return;
+    } else if (!req.body.styleImageName) {
+        res.status(400).json({ message: "Missing style image name" });
+        return;
+    } else if (!req.files) {
+        res.status(400).json({ message: "Missing images" });
+        return;
+    } else if (req.files.length != 2) {
+        res.status(400).json({ message: "Incorrect number of images" });
+        return;
+    }
     console.log("Performing inference...");
     try {
         const files = req.files;
+        console.log(files[0]);
         const contentImageFileName = req.body.contentImageName;
         var contentUploadRes = null;
         var styleUploadRes = null;
@@ -56,6 +71,7 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
         });
     } catch (error) {
         next(error);
+        console.log(error);
     }
 });
 
