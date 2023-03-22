@@ -60,6 +60,21 @@ exports.readUserData = async (username) => {
     return user;
 }
 
+/**
+ * 
+ * @param {*} user 
+ */
+exports.getStylizedImagesByUser = async (user) => {
+    const snapshot = await get(db_ref(db, 'stylizedImages'));
+    const stylizedImages = snapshot.val();
+    const stylizedImagesByUser = [];
+    for (const key in stylizedImages) {
+        if (stylizedImages[key].user == user) {
+            stylizedImagesByUser.push(stylizedImages[key]);
+        }
+    }
+    return stylizedImagesByUser;
+}
 
 // HELPER FUNCTIONS ------------------------------------------------------------------------------------------
 
