@@ -18,6 +18,11 @@ class APIService {
         });
         return response.data;
     }
+
+    static async getUserByUsername(username) {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username);
+        return response.data;
+    }
 }
 
 export default APIService;
