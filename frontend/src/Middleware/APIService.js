@@ -23,6 +23,18 @@ class APIService {
         const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username);
         return response.data;
     }
+
+    static async updateUser(username, email, firstName, lastName, imageUrl) {
+        // TODO: fix this once we know what is updated from the user.
+        const response = await axios.put(DEMOCRASTYLE_API_URL + 'users/' + username + '/update_user', {
+            username: username,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            imageUrl: imageUrl
+        });
+        return response.data;
+    }
 }
 
 export default APIService;
