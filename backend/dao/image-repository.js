@@ -1,7 +1,6 @@
-// const { storage } = require('../config/firebase');
-// const { ref, uploadBytes, getDownloadURL } = require("firebase/storage");
-const { db } = require('../config/firebase');
-const { ref, set, get } = require("firebase/database");
+const { db, storage } = require('../config/firebase');
+const { ref: db_ref, set, get } = require("firebase/database");
+const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/storage");
 const InputImage = require('../models/InputImage');
 const StylizedImage = require('../models/StylizedImage');
 const { Upload } = require("@aws-sdk/lib-storage");
@@ -14,22 +13,36 @@ const s3 = new S3({
     // credentials are fetched from env variables
 });
 
+/** 
+ * @param {string} filename
+ **/
+exports.uploadProfilePicture= async (file, user) => {
+    const fileType = file.mimetype.split('/')[1];
+    const imageKey = user + '.' + fileType;
+    const imageRef = storage_ref(storage, 'profilePictures/' + user);
+    try {
+        await uploadBytes(imageRef, file.buffer);
+        console.log('Uploaded file to firebase');
+    } catch (error) {
+        console.log(error);
+    }
+}
 
-// // Create a storage reference from our storage service
-// const storageRef = ref(storage);
-
-// /** 
-//  * @param {string} filename
-//  **/
-// exports.uploadFile = async (file) => {
-//     const imageRef = ref(storage, file.originalname);
-//     try {
-//         await uploadBytes(imageRef, file.buffer);
-//         console.log('Uploaded file to firebase');
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+/**
+ * 
+ * @params {string} username
+ * @returns
+ */
+exports.getProfilePicture = async (username) => {
+    console.log(username);
+    const imageRef = storage_ref(storage, 'profilePictures/' + username);
+    try {
+        const url = await getDownloadURL(imageRef);
+        return url;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 /**
@@ -80,7 +93,7 @@ exports.uploadStyleImageToS3 = async (styleImage) => {
 exports.saveContentImageToDB = async (image_S3_key, username) => {
     const contentImage = new InputImage(image_S3_key, username);
     try {
-        const snapshot = await set(ref(db, 'contentImages/' + image_S3_key), contentImage);
+        const snapshot = await set(db_ref(db, 'contentImages/' + image_S3_key), contentImage);
         console.log(snapshot);
         return contentImage;
     } catch (error) {
@@ -95,7 +108,7 @@ exports.saveContentImageToDB = async (image_S3_key, username) => {
 exports.saveStyleImageToDB = async (image_S3_key, username) => {
     const styleImage = new InputImage(image_S3_key, username);
     try {
-        const snapshot = await set(ref(db, 'styleImages/' + image_S3_key), styleImage);
+        const snapshot = await set(db_ref(db, 'styleImages/' + image_S3_key), styleImage);
         console.log(snapshot);
         return styleImage;
     } catch (error) {
@@ -114,7 +127,7 @@ exports.saveStyleImageToDB = async (image_S3_key, username) => {
 exports.saveStylizedImageToDB = async (S3_key, url, username, contentImageKey, styleImageKey) => {
     const stylizedImage = new StylizedImage(S3_key, url, username, contentImageKey, styleImageKey);
     try {
-        const snapshot = await set(ref(db, 'stylizedImages/' + S3_key), stylizedImage);
+        const snapshot = await set(db_ref(db, 'stylizedImages/' + S3_key), stylizedImage);
         console.log(snapshot);
         return stylizedImage;
     } catch (error) {
