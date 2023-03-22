@@ -15,7 +15,7 @@ function App() {
         <Route path="/Home"><Home /></Route>
         <Route path="/StyleTransfer"><StyleTransfer /></Route>
         <Route path="/Explore"><Explore /></Route>
-        <Route path="/Profile"><Profile /></Route>
+        <Route path="/Profile/:username"><Profile /></Route>
         <Route path="/Result"><Result /></Route>
         <Route path="*"><NotFound /></Route>
       </Switch>

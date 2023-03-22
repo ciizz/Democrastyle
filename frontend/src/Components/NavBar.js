@@ -15,6 +15,7 @@ const NavBar = () => {
                         <Nav.Link href="/Explore">Explore</Nav.Link>
                         <Nav.Link href="/StyleTransfer">Style Transfer</Nav.Link>
                         <NavDropdown title="Profile" id="basic-nav-dropdown">
+                            {/* TODO: navigate to the current user's profile page */}
                             <NavDropdown.Item href="/Profile">Visit Profile</NavDropdown.Item>
                             <NavDropdown.Divider />
                             {/* TODO: Implement logout and link to here */}
