@@ -13,6 +13,7 @@ function Profile() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
+  const [stylizedImages, setStylizedImages] = useState([]);
 
   useEffect(() => {
     async function fetchUser() {
@@ -29,12 +30,21 @@ function Profile() {
       }
     }
 
+    async function fetchStylizedImages() {
+      try {
+        const images = await APIService.getStylizedImagesByUser(username);
+        setStylizedImages(images);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     fetchUser();
+    fetchStylizedImages();
   }, [username]);
 
   const handleSave = async () => {
     try {
-      // TODO: pass arguments and update user
       const updatedUser = { ...user, firstName, lastName, profilePicture };
       await APIService.updateUser(username, email, firstName, lastName, profilePicture);
       setUser(updatedUser);
@@ -78,37 +88,53 @@ function Profile() {
             <Modal show={showModal} onHide={() => setShowModal(false)}>
               <Modal.Header closeButton>
                 <Modal.Title>Edit Profile</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Form.Group controlId="formFirstName">
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control type="text" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
-                  </Form.Group>
-                  <Form.Group controlId="formLastName">
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control type="text" value={lastName} onChange={(event) => setLastName(event.target.value)} />
-                  </Form.Group>
-                  <Form.Group controlId="formProfilePicture">
-                    <Form.Label>Profile Picture URL</Form.Label>
-                    <Form.Control type="text" value={profilePicture} onChange={(event) => setProfilePicture(event.target.value)} />
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={handleCancel}>Close</Button>
-                <Button variant="primary" onClick={handleSave}>Save changes</Button>
-              </Modal.Footer>
-            </Modal>
-          </Container>
+                </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="formBasicFirstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+              </Form.Group>
+              <Form.Group controlId="formBasicLastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+              </Form.Group>
+              <Form.Group controlId="formBasicProfilePicture">
+                <Form.Label>Profile Picture</Form.Label>
+                <Form.Control type="text" placeholder="Enter profile picture URL" value={profilePicture} onChange={(e) => setProfilePicture(e.target.value)} />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleSave}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <h2>Stylized Images</h2>
+        {stylizedImages.length > 0 ? (
+          <Row>
+            {stylizedImages.map((image, index) => (
+              <Col key={index} sm={4}>
+                <Image src={image.url} fluid className="image-container" />
+              </Col>
+            ))}
+          </Row>
         ) : (
-        <Container className="mt-5 d-flex flex-column align-items-center">
-          <h1>User not found</h1>
-        </Container>
+          <p>No stylized images found.</p>
         )}
       </Container>
-    </Container>
-  );
+    ) : (
+      <Container className="mt-5 d-flex flex-column align-items-center">
+        <h1>User not found.</h1>
+      </Container>
+    )}
+  </Container>
+</Container>
+);
 }
 
 export default Profile;

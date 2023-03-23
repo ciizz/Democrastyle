@@ -33,6 +33,11 @@ class APIService {
         });
         return response.data;
     }
+
+    static async getStylizedImagesByUser(username) {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username + '/stylized_images');
+        return response.data;
+    }
 }
 
 export default APIService;
