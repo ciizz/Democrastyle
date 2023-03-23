@@ -42,12 +42,12 @@ router.post('/new_user', async function(req, res, next) {
 /* PUT update user. */
 router.put('/:username/update_user', async function(req, res, next) {
     const username = req.params.username;
-    const new_username = req.body.new_username;
+    // Possible updates: first name, last name, image url
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
     const imageUrl = req.body.imageUrl;
-    const user = await UserRepository.updateUserData(username, new_username, email, firstName, lastName, imageUrl);
+    const user = await UserRepository.updateUserData(username, email, firstName, lastName, imageUrl);
     res.status(200).json(user);
 });
 
