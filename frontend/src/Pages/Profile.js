@@ -11,6 +11,7 @@ function Profile() {
   const [showModal, setShowModal] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(() => {
@@ -18,6 +19,7 @@ function Profile() {
       try {
         const user = await APIService.getUserByUsername(username);
         setUser(user);
+        setEmail(user.email);
         setFirstName(user.firstName);
         setLastName(user.lastName);
         setProfilePicture(user.profilePicture);
@@ -34,7 +36,7 @@ function Profile() {
     try {
       // TODO: pass arguments and update user
       const updatedUser = { ...user, firstName, lastName, profilePicture };
-      await APIService.updateUser();
+      await APIService.updateUser(username, email, firstName, lastName, profilePicture);
       setUser(updatedUser);
       setShowModal(false);
     } catch (error) {
