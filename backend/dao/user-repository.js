@@ -39,8 +39,20 @@ exports.updateUserData = async (username, new_username, email, firstName, lastNa
     // check if user exists
     // if user exists, update user
     // if user does not exist, return error
-    if (username == null || new_username == null || firstName == null || lastName == null || email == null || imageUrl == null) {
-        return "Missing parameters";
+    // if (username == null || new_username == null || firstName == null || lastName == null || email == null || imageUrl == null) {
+    //     return "Missing parameters";
+    if (username == null) {
+        return "Missing username";
+    } else if (new_username == null) {
+        return "Missing new username";
+    } else if (firstName == null) {
+        return "Missing first name";
+    } else if (lastName == null) {
+        return "Missing last name";
+    } else if (email == null) {
+        return "Missing email";
+    } else if (imageUrl == null) {
+        return "Missing image url";
     } else if (await getUserByUsername(username) == null) {
         return "User does not exist";
     } else if (await getUserByUsername(new_username) != null) {
@@ -65,7 +77,7 @@ exports.readUserData = async (username) => {
  * @param {*} user 
  */
 exports.getStylizedImagesByUser = async (user) => {
-    const snapshot = await get(db_ref(db, 'stylizedImages'));
+    const snapshot = await get(ref(db, 'stylizedImages'));
     const stylizedImages = snapshot.val();
     const stylizedImagesByUser = [];
     for (const key in stylizedImages) {

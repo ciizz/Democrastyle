@@ -17,8 +17,8 @@ router.get('/:username', async function(req, res, next) {
 router.get('/:username/stylized_images', async function(req, res, next) {
   try {
     const username = req.params.username;
-    const user = await UserRepository.readUserData(username);
-    res.status(200).json(user);
+    const stylizedImages = await UserRepository.getStylizedImagesByUser(username);
+    res.status(200).json(stylizedImages);
   } catch (error) {
     next(error);
   }
