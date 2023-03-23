@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Image } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 
-function Result(props) {
+function Result() {
+    const location = useLocation();
+    const props = location.state;
+    console.log(props);
 
     const contentImage = props.contentImage;
     const styleImage = props.styleImage;
@@ -32,11 +36,9 @@ function Result(props) {
             <Container className="mt-5 d-flex flex-column align-items-center">
                 <Row>
                     {   stylizedImage ?
-                    <Col>
+                    <Col style={{ textAlign: "center" }}>
                         <h1>Here is your stylized image:</h1>
-                        <div className="mt-3">
-                        <p>The image URL is: </p>
-                        </div>
+                        <Image src={stylizedImage} style={{ maxHeight: "500px", maxWidth: "500px" }} />
                     </Col> :
                     <Col style={{ textAlign: "center" }}>
                         { serverError ? 

@@ -3,7 +3,7 @@ import { Form, Row, Col } from 'react-bootstrap';
 
 const FileUpload = (props) => {
     return (
-        <Form enctype="multipart/form-data">
+        <Form encType="multipart/form-data">
             <Form.Group>
                 <Row>
                     <Col>

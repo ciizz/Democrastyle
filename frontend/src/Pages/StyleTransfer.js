@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Container, Card, Row, Col, Image, Button } from 'react-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Container, Card, Row, Col, Image, Button, Collapse } from 'react-bootstrap';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 
 function StyleTransfer() {
-  const history = useHistory();
   const [contentImage, setContentImage] = useState(null);
   const [contentImageName, setContentImageName] = useState(null);
   const [contentImageURL, setContentImageURL] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
   const [styleImageName, setStyleImageName] = useState(null);
   const [styleImageURL, setStyleImageURL] = useState(null);
+  const [premadeStylesVisible, setPremadeStylesVisible] = useState(false);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   const handleContentImageUpload = (event) => {
@@ -33,12 +34,6 @@ function StyleTransfer() {
       setStyleImageName(name);
       setStyleImageURL(URL.createObjectURL(file));
     }
-  };
-
-  const handleGenerateStyleTransfer = () => {
-    // Redirect to result page with message prop, image will start generating once rerouted there
-    // window.location.href = "/Result?contentImage=" + contentImage + "&styleImage=" + styleImage + "&contentImageName=" + contentImageName + "&styleImageName=" + styleImageName + "&user=" + user;
-    history.go('/Result', { contentImage: contentImage, styleImage: styleImage, contentImageName: contentImageName, styleImageName: styleImageName });
   };
 
   return (
@@ -91,30 +86,41 @@ function StyleTransfer() {
                   </Col>
                 </Row>
                   <Card.Text>
-                    Or choose from one of the following premade styles:
+                  <Button
+                    onClick={() => setPremadeStylesVisible(!premadeStylesVisible)}
+                    aria-controls="collapse-styles"
+                    aria-expanded={premadeStylesVisible}
+                    variant="outline-primary"
+                  >
+                    Or choose from our premade styles {premadeStylesVisible ? <FaChevronUp className="float-right" /> : <FaChevronDown className="float-right" />}
+                  </Button>
                   </Card.Text>
-                  <Row>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 1" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 2" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 3" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 4" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 5" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 6" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                  </Row>
+                  <Collapse in={premadeStylesVisible}>
+                    <div id="collapse-styles">
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 1" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 2" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 3" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 4" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 5" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 6" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Collapse>
                 </Card.Body>
               </Card>
           </Col>
@@ -123,26 +129,24 @@ function StyleTransfer() {
           <Col>
           </Col>
           <Col style={{ textAlign: 'center' }}>
-            {/* <Router> */}
-              {/* <Link to={{
-                pathname: "/Result", 
-                state: {
+            <div
+              style={{ pointerEvents: isSubmitDisabled ? 'none' : 'auto' }}
+            >
+              <Link 
+              to="/Result" 
+              state={{
                   contentImage: contentImage,
-                  styleImage: styleImage, 
+                  styleImage: styleImage,
                   contentImageName: contentImageName,
                   syleImageName: styleImageName,
                   user: "ciz"
-                }
-              }}> */}
-                <Button 
-                variant="primary" 
-                onClick={handleGenerateStyleTransfer}
-                disabled={isSubmitDisabled}
-                >
+                }}
+              >
+                <Button variant="primary" size="lg" disabled={isSubmitDisabled}>
                   Generate Style Transfer
                 </Button>
-              {/* </Link> */}
-            {/* </Router> */}
+              </Link>
+            </div>
           </Col>
           <Col>
           </Col>
