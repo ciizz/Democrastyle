@@ -13,6 +13,17 @@ router.get('/:username', async function(req, res, next) {
   }
 });
 
+/* GET stylized images by username. */
+router.get('/:username/stylized_images', async function(req, res, next) {
+  try {
+    const username = req.params.username;
+    const stylizedImages = await UserRepository.getStylizedImagesByUser(username);
+    res.status(200).json(stylizedImages);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* POST create new user. */
 router.post('/new_user', async function(req, res, next) {
   try {
@@ -31,12 +42,12 @@ router.post('/new_user', async function(req, res, next) {
 /* PUT update user. */
 router.put('/:username/update_user', async function(req, res, next) {
     const username = req.params.username;
-    const new_username = req.body.new_username;
+    // Possible updates: first name, last name, image url
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
     const imageUrl = req.body.imageUrl;
-    const user = await UserRepository.updateUserData(username, new_username, email, firstName, lastName, imageUrl);
+    const user = await UserRepository.updateUserData(username, email, firstName, lastName, imageUrl);
     res.status(200).json(user);
 });
 

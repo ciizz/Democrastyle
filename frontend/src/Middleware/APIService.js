@@ -18,6 +18,26 @@ class APIService {
         const response = await axios.post(DEMOCRASTYLE_API_URL + 'images/perform_inference', formData, config);
         return response.data;
     }
+
+    static async getUserByUsername(username) {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username);
+        return response.data;
+    }
+
+    static async updateUser(username, email, firstName, lastName, imageUrl) {
+        const response = await axios.put(DEMOCRASTYLE_API_URL + 'users/' + username + '/update_user', {
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
+            imageUrl: imageUrl
+        });
+        return response.data;
+    }
+
+    static async getStylizedImagesByUser(username) {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username + '/stylized_images');
+        return response.data;
+    }
 }
 
 export default APIService;

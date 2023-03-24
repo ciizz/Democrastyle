@@ -22,7 +22,7 @@ exports.createNewUser = async (username, firstName, lastName, email, imageUrl) =
     } else if (await isEmailTaken(email) == true) {
         return "Email is taken";
     } else {
-        return await writeUserData(username, username, firstName, lastName, email, imageUrl)
+        return await writeUserData(username, firstName, lastName, email, imageUrl)
     }
 }
 
@@ -35,18 +35,16 @@ exports.createNewUser = async (username, firstName, lastName, email, imageUrl) =
  * @param {string} imageUrl 
  * @returns the updated user 
  */
-exports.updateUserData = async (username, new_username, email, firstName, lastName, imageUrl) => {
+exports.updateUserData = async (username, email, firstName, lastName, imageUrl) => {
     // check if user exists
     // if user exists, update user
     // if user does not exist, return error
-    if (username == null || new_username == null || firstName == null || lastName == null || email == null || imageUrl == null) {
+    if (username == null || firstName == null || lastName == null || email == null || imageUrl == null) {
         return "Missing parameters";
     } else if (await getUserByUsername(username) == null) {
         return "User does not exist";
-    } else if (await getUserByUsername(new_username) != null) {
-        return "Username is taken";
     } else {
-        return await writeUserData(username, new_username, firstName, lastName, email, imageUrl)
+        return await writeUserData(username, firstName, lastName, email, imageUrl)
     }
 }
 
@@ -60,6 +58,21 @@ exports.readUserData = async (username) => {
     return user;
 }
 
+/**
+ * 
+ * @param {*} user 
+ */
+exports.getStylizedImagesByUser = async (user) => {
+    const snapshot = await get(ref(db, 'stylizedImages'));
+    const stylizedImages = snapshot.val();
+    const stylizedImagesByUser = [];
+    for (const key in stylizedImages) {
+        if (stylizedImages[key].user == user) {
+            stylizedImagesByUser.push(stylizedImages[key]);
+        }
+    }
+    return stylizedImagesByUser;
+}
 
 // HELPER FUNCTIONS ------------------------------------------------------------------------------------------
 
@@ -92,8 +105,8 @@ getUserByUsername = async (username) => {
  * @throws error if error occurs
  * @description creates a new user/ updates existing user and add email to user_emails for reference
  */
-writeUserData = async (username, new_username, firstName, lastName, email, imageUrl) => {
-    const user = new User(new_username, firstName, lastName, email, imageUrl);
+writeUserData = async (username, firstName, lastName, email, imageUrl) => {
+    const user = new User(username, firstName, lastName, email, imageUrl);
     set(ref(db, 'users/' + username), user);
     return user;
 }

@@ -14,7 +14,7 @@ function App() {
       <Route path="/Home" element={<Home />} />
       <Route path="/StyleTransfer" element={<StyleTransfer />} />
       <Route path="/Explore" element={<Explore />} />
-      <Route path="/Profile" element={<Profile />} />
+      <Route path="/Profile/:username" element={<Profile />} />
       <Route path="/Result" element={<Result />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
