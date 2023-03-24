@@ -5,9 +5,7 @@
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
-    "unit-test": "jest",
-    "integration-test": "node test/integration-test.js",
-    "test": "npm run unit-test && npm run integration-test"
+    "unit-test": "jest"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.293.0",
