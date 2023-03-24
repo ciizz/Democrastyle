@@ -1,6 +1,6 @@
-const User = require('../models/user');
-const StylizedImage = require('../models/stylizedImage');
-const InputImage = require('../models/inputImage');
+const User = require('./user');
+const StylizedImage = require('./stylizedImage');
+const InputImage = require('./inputImage');
 
 // Test user class
 describe('User class', () => {
