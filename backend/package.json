@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "unit-test": "jest",
+    "integration-test": "node test/integration-test.js",
+    "test": "npm run unit-test && npm run integration-test"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.293.0",
@@ -20,6 +23,7 @@
     "express": "~4.16.1",
     "firebase": "^9.17.1",
     "http-errors": "~1.6.3",
+    "jest": "^29.5.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
     "node-fetch": "^3.3.1",
