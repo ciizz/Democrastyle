@@ -5,21 +5,19 @@ import Explore from './Pages/Explore';
 import Profile from './Pages/Profile';
 import NotFound from './Pages/NotFound';
 import Result from './Pages/Result';
-import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/"><Home /></Route>
-        <Route path="/Home"><Home /></Route>
-        <Route path="/StyleTransfer"><StyleTransfer /></Route>
-        <Route path="/Explore"><Explore /></Route>
-        <Route path="/Profile/:username"><Profile /></Route>
-        <Route path="/Result"><Result /></Route>
-        <Route path="*"><NotFound /></Route>
-      </Switch>
-    </Router>
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route path="/Home" element={<Home />} />
+      <Route path="/StyleTransfer" element={<StyleTransfer />} />
+      <Route path="/Explore" element={<Explore />} />
+      <Route path="/Profile/:username" element={<Profile />} />
+      <Route path="/Result" element={<Result />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   )
 }
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Card, Row, Col, Image, Button } from 'react-bootstrap';
+import { Container, Card, Row, Col, Image, Button, Collapse } from 'react-bootstrap';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
@@ -8,17 +9,20 @@ import FileUpload from '../Components/FileUpload';
 function StyleTransfer() {
   const [contentImage, setContentImage] = useState(null);
   const [contentImageName, setContentImageName] = useState(null);
+  const [contentImageURL, setContentImageURL] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
   const [styleImageName, setStyleImageName] = useState(null);
+  const [styleImageURL, setStyleImageURL] = useState(null);
+  const [premadeStylesVisible, setPremadeStylesVisible] = useState(false);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
     const name = file.name;
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setContentImage(imageUrl);
+      setContentImage(file);
       setContentImageName(name);
+      setContentImageURL(URL.createObjectURL(file));
     }
   };
 
@@ -26,15 +30,10 @@ function StyleTransfer() {
     const file = event.target.files[0];
     const name = file.name;
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setStyleImage(imageUrl);
+      setStyleImage(file);
       setStyleImageName(name);
+      setStyleImageURL(URL.createObjectURL(file));
     }
-  };
-
-  const handleGenerateStyleTransfer = (contentImage, styleImage, user) => {
-    // Redirect to result page with message prop, image will start generating once rerouted there
-    window.location.href = "/Result?contentImage=" + contentImage + "&styleImage=" + styleImage + "&contentImageName=" + contentImageName + "&styleImageName=" + styleImageName + "&user=" + user;
   };
 
   return (
@@ -61,7 +60,7 @@ function StyleTransfer() {
                 </Row>
                 <Row>
                   <Col>
-                    {contentImage && (<Image style={{ height: '200px' }} src={contentImage} fluid />)}
+                    {contentImageURL && (<Image style={{ height: '200px' }} src={contentImageURL} fluid />)}
                   </Col>
                 </Row>
               </Card.Body>
@@ -83,34 +82,45 @@ function StyleTransfer() {
                 </Row>
                 <Row>
                   <Col>
-                    {styleImage && (<Image style={{ height: '200px' }} src={styleImage} fluid />)}
+                    {styleImageURL && (<Image style={{ height: '200px' }} src={styleImageURL} fluid />)}
                   </Col>
                 </Row>
                   <Card.Text>
-                    Or choose from one of the following premade styles:
+                  <Button
+                    onClick={() => setPremadeStylesVisible(!premadeStylesVisible)}
+                    aria-controls="collapse-styles"
+                    aria-expanded={premadeStylesVisible}
+                    variant="outline-primary"
+                  >
+                    Or choose from our premade styles {premadeStylesVisible ? <FaChevronUp className="float-right" /> : <FaChevronDown className="float-right" />}
+                  </Button>
                   </Card.Text>
-                  <Row>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 1" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 2" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 3" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 4" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 5" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                    <Col>
-                      <PremadeStyle onSelect={handleStyleImageUpload} title="Style 6" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
-                    </Col>
-                  </Row>
+                  <Collapse in={premadeStylesVisible}>
+                    <div id="collapse-styles">
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 1" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 2" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 3" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 4" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 5" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                        <Col>
+                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 6" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                        </Col>
+                      </Row>
+                    </div>
+                  </Collapse>
                 </Card.Body>
               </Card>
           </Col>
@@ -119,15 +129,24 @@ function StyleTransfer() {
           <Col>
           </Col>
           <Col style={{ textAlign: 'center' }}>
-            <Link>
-              <Button 
-              variant="primary" 
-              onClick={e => handleGenerateStyleTransfer(contentImage, styleImage, "ciz")}
-              disabled={isSubmitDisabled}
+            <div
+              style={{ pointerEvents: isSubmitDisabled ? 'none' : 'auto' }}
+            >
+              <Link 
+              to="/Result" 
+              state={{
+                  contentImage: contentImage,
+                  styleImage: styleImage,
+                  contentImageName: contentImageName,
+                  syleImageName: styleImageName,
+                  user: "ciz"
+                }}
               >
-                Generate Style Transfer
-              </Button>
-            </Link>
+                <Button variant="primary" size="lg" disabled={isSubmitDisabled}>
+                  Generate Style Transfer
+                </Button>
+              </Link>
+            </div>
           </Col>
           <Col>
           </Col>
