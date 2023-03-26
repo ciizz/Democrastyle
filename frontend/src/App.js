@@ -7,6 +7,8 @@ import NotFound from './Pages/NotFound';
 import Result from './Pages/Result';
 import { Routes, Route} from "react-router-dom";
 
+// TODO: if user is not logged in: only allow Home, Explore and login pages
+// TODO: non-logged in users are redirected to login page if they try to access other pages
 function App() {
   return (
     <Routes>
