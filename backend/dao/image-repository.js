@@ -44,6 +44,19 @@ exports.getProfilePicture = async (username) => {
     }
 }
 
+/**
+ *  
+ * @returns 
+ */
+exports.getAllStylizedImages = async () => {
+    const snapshot = await get(db_ref(db, 'stylizedImages'));
+    const stylizedImages = snapshot.val();
+    const result = [];
+    for (const key in stylizedImages) {
+        result.push(stylizedImages[key]);
+    }
+    return result;
+}
 
 /**
  * @param {string} contentImage
