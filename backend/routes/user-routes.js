@@ -53,8 +53,7 @@ router.post('/new_user', async function(req, res, next) {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const email = req.body.email;
-    const imageUrl = req.body.imageUrl;
-    const user = await UserRepository.createNewUser(username, firstName, lastName, email, imageUrl);
+    const user = await UserRepository.createNewUser(username, firstName, lastName, email);
     res.status(201).json(user);
   } catch (error) {
     next(error);

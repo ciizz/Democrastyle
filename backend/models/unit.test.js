@@ -5,26 +5,16 @@ const InputImage = require('./InputImage');
 // Test user class
 describe('User class', () => {
   it('should create a new user with the correct properties', () => {
-    const user = new User('johndoe', 'John', 'Doe', 'johndoe@example.com', 'http://example.com/avatar.png');
+    const user = new User('johndoe', 'John', 'Doe', 'johndoe@example.com');
 
     expect(user.username).toBe('johndoe');
     expect(user.firstName).toBe('John');
     expect(user.lastName).toBe('Doe');
     expect(user.email).toBe('johndoe@example.com');
-    expect(user.profilePicture).toBe('http://example.com/avatar.png');
   });
 
   it('should throw an error when email is missing', () => {
-    expect(() => new User('johndoe', 'John', 'Doe', null, 'http://example.com/avatar.png')).toThrow('Email, username, first name, last name and profile picture are required');
-  });
-
-  it('should allow updating the profile picture', () => {
-    const user = new User('johndoe', 'John', 'Doe', 'johndoe@example.com', 'http://example.com/avatar.png');
-    const newAvatarUrl = 'http://example.com/new-avatar.png';
-
-    user.profilePicture = newAvatarUrl;
-
-    expect(user.profilePicture).toBe(newAvatarUrl);
+    expect(() => new User('johndoe', 'John', 'Doe', null)).toThrow('Email, username, first name, last name and profile picture are required');
   });
 });
 
