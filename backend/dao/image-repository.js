@@ -49,17 +49,13 @@ exports.getProfilePicture = async (username) => {
  * @returns 
  */
 exports.getAllStylizedImages = async () => {
-    const stylizedImagesRef = db_ref(db, 'stylizedImages');
-    try {
-        const snapshot = await get(stylizedImagesRef);
-        if (snapshot.exists()) {
-            return snapshot.val();
-        } else {
-            console.log("No data available");
-        }
-    } catch (error) {
-        console.log(error);
+    const snapshot = await get(db_ref(db, 'stylizedImages'));
+    const stylizedImages = snapshot.val();
+    const result = [];
+    for (const key in stylizedImages) {
+        result.push(stylizedImages[key]);
     }
+    return result;
 }
 
 /**
