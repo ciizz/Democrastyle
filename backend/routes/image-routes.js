@@ -5,27 +5,6 @@ const multer = require("multer");
 const upload = multer();
 const ImageRepository = require('../dao/image-repository');
 
-
-/* POST upload user profile picture. */
-router.post('/upload_profile_picture', upload.single("file"), async function(req, res, next) {
-    try {
-        await ImageRepository.uploadProfilePicture(req.file, req.body.user);
-        res.status(200).json({ message: "Image uploaded successfully" });
-    } catch (error) {
-        next(error);
-    }
-});
-
-/* GET user profile picture. */
-router.get('/get_profile_picture', async function(req, res, next) {
-    try {
-        const profilePicture = await ImageRepository.getProfilePicture(req.body.user);
-        res.status(200).json({ profilePicture: profilePicture });
-    } catch (error) {
-        next(error);
-    }
-});
-
 /* GET all stylized images. */
 router.get('/stylized_images', async function(req, res, next) {
     try {
