@@ -26,6 +26,16 @@ router.get('/get_profile_picture', async function(req, res, next) {
     }
 });
 
+/* GET all stylized images. */
+router.get('/stylized_images', async function(req, res, next) {
+    try {
+      const stylizedImages = await ImageRepository.getAllStylizedImages();
+      res.status(200).json(stylizedImages);
+    } catch (error) {
+      next(error);
+    }
+});
+
 /* POST perform inference. */
 // TODO: either rename each file from the frontend (this way they can have same name, won't matter for us),
 // or send key-value pairs with request indicating which file is which (content or style)
