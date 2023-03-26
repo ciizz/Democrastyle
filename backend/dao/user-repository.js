@@ -1,6 +1,40 @@
-const { db } = require('../config/firebase');
+const { db, storage } = require('../config/firebase');
 const { ref, set, get } = require("firebase/database");
 const User = require('../models/user');
+const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/storage");
+
+
+
+/** 
+ * @param {string} filename
+ **/
+exports.uploadProfilePicture= async (file, user) => {
+    const fileType = file.mimetype.split('/')[1];
+    const imageKey = user + '.' + fileType;
+    const imageRef = storage_ref(storage, 'profilePictures/' + user);
+    try {
+        await uploadBytes(imageRef, file.buffer);
+        console.log('Uploaded file to firebase');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+/**
+ * 
+ * @params {string} username
+ * @returns
+ */
+exports.getProfilePicture = async (username) => {
+    console.log(username);
+    const imageRef = storage_ref(storage, 'profilePictures/' + username);
+    try {
+        const url = await getDownloadURL(imageRef);
+        return url;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 /**
  * 

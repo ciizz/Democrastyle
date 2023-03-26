@@ -23,13 +23,21 @@ function Profile() {
         setEmail(user.email);
         setFirstName(user.firstName);
         setLastName(user.lastName);
-        setProfilePicture(user.profilePicture);
         setLoading(false);
       } catch (error) {
         console.error(error);
       }
     }
 
+    async function fetchProfilePicture() {
+      try {
+        const profilePicture = await APIService.getUserProfilePic(username);
+        setProfilePicture(profilePicture);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    
     async function fetchStylizedImages() {
       try {
         const images = await APIService.getStylizedImagesByUser(username);
@@ -40,6 +48,7 @@ function Profile() {
     }
 
     fetchUser();
+    fetchProfilePicture();
     fetchStylizedImages();
   }, [username]);
 
@@ -76,7 +85,7 @@ function Profile() {
           <Container className="mt-5 d-flex flex-column align-items-center">
             <Row>
               <Col sm={4}>
-                <Image src={user.profilePicture} roundedCircle fluid />
+                <Image src={profilePicture} roundedCircle fluid />
                 <Button className="mt-2" onClick={() => setShowModal(true)}>Edit</Button>
               </Col>
               <Col sm={8}>

@@ -24,6 +24,13 @@ class APIService {
         return response.data;
     }
 
+    static async getUserProfilePic(username) {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/get_profile_picture', {
+                user: "andrewG"
+        });
+        return response.data;
+    }
+
     static async updateUser(username, email, firstName, lastName, imageUrl) {
         const response = await axios.put(DEMOCRASTYLE_API_URL + 'users/' + username + '/update_user', {
             email: email,
