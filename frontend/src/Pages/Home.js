@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 
 function Home() {
+
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center">
       <section className="text-center my-5">

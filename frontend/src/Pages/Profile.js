@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Image, Button, Modal, Form } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
-import { useParams } from 'react-router-dom';
 import APIService from '../Middleware/APIService';
+import { useAuth } from '../Contexts/AuthContext';
 
 function Profile() {
-  const { username } = useParams();
+  const { currentUser } = useAuth();
+  const username = currentUser.displayName;
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
