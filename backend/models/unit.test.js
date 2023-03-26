@@ -14,7 +14,7 @@ describe('User class', () => {
   });
 
   it('should throw an error when email is missing', () => {
-    expect(() => new User('johndoe', 'John', 'Doe', null)).toThrow('Email, username, first name, last name and profile picture are required');
+    expect(() => new User('johndoe', 'John', 'Doe')).toThrow('Email, username, first name, last name are required');
   });
 });
 
