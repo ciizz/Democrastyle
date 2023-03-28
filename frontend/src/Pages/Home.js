@@ -1,8 +1,11 @@
 import React from 'react';
 import { Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../Contexts/AuthContext';
 
 function Home() {
+
+  const { currentUser } = useAuth();
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center">
@@ -11,11 +14,11 @@ function Home() {
       </section>
       <nav>
         <ul className="list-unstyled d-flex justify-content-center">
-          {/* TODO: redirect to login/sign up page */}
-          <li className="mx-3"><Button variant="secondary" as={Link} to={"/Login"}> Login</Button></li>
           <li className="mx-3"><Button variant="primary" as={Link} to={"/StyleTransfer"}>Style Transfer</Button></li>
           <li className="mx-3"><Button variant="secondary" as={Link} to={"/Explore"}>Explore</Button></li>
-          <li className="mx-3"><Button variant="secondary" as={Link} to={"/Profile"}>Profile</Button></li>
+          { currentUser ?
+          <li className="mx-3"><Button variant="secondary" as={Link} to={"/Profile"}>Profile</Button></li> :
+          <li className="mx-3"><Button variant="secondary" as={Link} to={"/Login"}>Login</Button></li> }
         </ul>
       </nav>
       <section className="text-center my-5" style={{ fontStyle: 'italic', color: 'gray' }}>
