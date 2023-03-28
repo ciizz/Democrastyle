@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Spinner, Image, Button, Modal, Form } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
-import { useParams } from 'react-router-dom';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
 
+import { useAuth } from '../Contexts/AuthContext';
 
 function Profile() {
-  const { username } = useParams();
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -19,15 +22,23 @@ function Profile() {
 
   useEffect(() => {
     async function fetchUser() {
-      try {
-        const user = await APIService.getUserByUsername(username);
-        setUser(user);
-        setEmail(user.email);
-        setFirstName(user.firstName);
-        setLastName(user.lastName);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
+      if (!currentUser) {
+        navigate('/login');
+      } else {
+        setUsername(currentUser.displayName);
+        console.log(currentUser);
+        try {
+          const user = await APIService.getUserByUsername(username);
+          setUser(user);
+          setEmail(user.email);
+          setFirstName(user.firstName);
+          setLastName(user.lastName);
+          setProfilePicture(user.profilePicture);
+          console.log(user.profilePicture);
+          setLoading(false);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
 
@@ -39,7 +50,7 @@ function Profile() {
         console.error(error);
       }
     }
-    
+
     async function fetchStylizedImages() {
       try {
         const images = await APIService.getStylizedImagesByUser(username);
@@ -52,7 +63,7 @@ function Profile() {
     fetchUser();
     fetchProfilePicture();
     fetchStylizedImages();
-  }, [username]);
+  }, [username, currentUser, navigate]);
 
   const handleSave = async () => {
     try {
