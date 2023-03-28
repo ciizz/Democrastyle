@@ -42,6 +42,15 @@ function Profile() {
       }
     }
 
+    async function fetchProfilePicture() {
+      try {
+        const profilePicture = await APIService.getUserProfilePic(username);
+        setProfilePicture(profilePicture);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     async function fetchStylizedImages() {
       try {
         const images = await APIService.getStylizedImagesByUser(username);
