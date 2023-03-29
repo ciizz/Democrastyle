@@ -26,6 +26,16 @@ export function AuthProvider({ children }) {
         return await signOut(auth);
     }
 
+    async function updateDisplayName(displayName) {
+        await updateProfile(auth.currentUser, { displayName: displayName });
+        return auth.currentUser.displayName;
+    }
+
+    async function updateProfilePicture(photoURL) {
+        await updateProfile(auth.currentUser, { photoURL: photoURL });
+        return auth.currentUser.photoURL;
+    }
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -41,6 +51,8 @@ export function AuthProvider({ children }) {
         login,
         register,
         logout,
+        updateDisplayName,
+        updateProfilePicture
     };
 
     return (

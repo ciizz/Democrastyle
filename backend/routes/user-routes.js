@@ -29,8 +29,8 @@ router.get('/:username/stylized_images', async function(req, res, next) {
 /* POST upload user profile picture. */
 router.post('/:username/upload_profile_picture', upload.single("file"), async function(req, res, next) {
   try {
-      await UserRepository.uploadProfilePicture(req.file, req.params.username);
-      res.status(200).json({ message: "Image uploaded successfully" });
+      const profilePicture = await UserRepository.uploadProfilePicture(req.file, req.params.username);
+      res.status(200).json({ message: "Image uploaded successfully", profilePicture: profilePicture });
   } catch (error) {
       next(error);
   }

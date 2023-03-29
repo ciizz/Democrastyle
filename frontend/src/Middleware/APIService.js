@@ -38,7 +38,7 @@ class APIService {
             }
         };
         const response = await axios.post(DEMOCRASTYLE_API_URL + 'users/' + username + '/upload_profile_picture', formData, config);
-        return response.data;
+        return response.data.profilePicture;
     }
 
     static async updateUser(username, email, firstName, lastName) {
