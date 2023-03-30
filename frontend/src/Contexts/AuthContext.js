@@ -1,5 +1,5 @@
 import { useState, createContext, useContext, useEffect } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, fetchSignInMethodsForEmail } from "firebase/auth";
 import auth from "../config/FirebaseAuth";
 
 const AuthContext = createContext();
@@ -36,6 +36,22 @@ export function AuthProvider({ children }) {
         return auth.currentUser.photoURL;
     }
 
+    async function emailExists(email) {
+        fetchSignInMethodsForEmail(email)
+        .then(function(signInMethods) {
+            if (signInMethods.length > 0) {
+                console.log("Email already exists!");
+                return true;
+            } else {
+                console.log("Email does not exist!");
+                return false;
+            }
+        })
+        .catch(function(error) {
+            console.log("Error checking email:", error);
+        });
+    }
+
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -52,7 +68,8 @@ export function AuthProvider({ children }) {
         register,
         logout,
         updateDisplayName,
-        updateProfilePicture
+        updateProfilePicture,
+        emailExists
     };
 
     return (

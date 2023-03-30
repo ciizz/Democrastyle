@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Spinner, Image, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
@@ -17,9 +17,11 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState('');
   const [stylizedImages, setStylizedImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
+  const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
+  const [showProfilePicModal, setShowProfilePicModal] = useState(false);
 
   useEffect(() => {
+
     async function fetchUserProfile() {
       if (!currentUser) {
         navigate('/login');
@@ -45,12 +47,23 @@ function Profile() {
     fetchStylizedImages();
   }, [currentUser, userId, navigate]);
 
-  const handleSave = async () => {
+  const handleUpdateDisplayName = async () => {
     try {
-      // TODO: make unique
-      await updateDisplayName(displayName);
-      setDisplayName(displayName);
-      setShowModal(false);
+      // check if displayName changed
+      if (displayName !== currentUser.displayName) {
+        const displayNameTaken = await APIService.isDisplayNameTaken(displayName);
+        if (displayNameTaken) {
+          <Alert variant='danger'>
+            Display name already taken.
+          </Alert>
+        } else {
+          console.log("updating display name");
+          await updateDisplayName(displayName);
+          setDisplayName(displayName);
+        }
+      }
+
+      setShowDisplayNameModal(false);
     } catch (error) {
       console.error(error);
     }
@@ -58,18 +71,17 @@ function Profile() {
 
   const handleCancel = () => {
     setDisplayName(currentUser.displayName);
-    setEmail(currentUser.email);
-    setShowModal(false);
+    setShowDisplayNameModal(false);
   };
 
   const handleProfileImageUpload = async (event) => {
     try {
       const file = event.target.files[0];
       if (file) {
-        const profilePic = await APIService.updateUserProfilePic(userId, file);
+        const profilePic = await APIService.uploadUserProfilePic(userId, file);
         await updateProfilePicture(profilePic);
         setProfilePicture(profilePic);
-        setShowModal(false);
+        setShowDisplayNameModal(false);
       }
     } catch (error) {
       console.error(error);
@@ -93,40 +105,42 @@ function Profile() {
           <Row>
             <Col sm={4}>
               <Image src={profilePicture} roundedCircle fluid />
-              <Button className="mt-2" onClick={() => setShowModal(true)}>Edit</Button>
+              <Button className="mt-2" onClick={() => setShowProfilePicModal(true)}>Edit</Button>
             </Col>
             <Col sm={8}>
-              <h3>@{displayName}</h3>
+              <h3>@{displayName} <Button className="mt-2" onClick={() => setShowDisplayNameModal(true)}>Edit</Button></h3>
               <p>{email}</p>
             </Col>
           </Row>
-          <Modal show={showModal} onHide={() => {setShowModal(false); handleCancel()}}>
+          <Modal show={showDisplayNameModal} onHide={() => {setShowDisplayNameModal(false); handleCancel()}}>
             <Modal.Header closeButton>
-              <Modal.Title>Edit Profile</Modal.Title>
+              <Modal.Title>Edit Display Name</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
                 <p>Update your profile information.</p>
                 <Form.Group controlId="formBasicFirstName">
                   <Form.Label>Display Name</Form.Label>
-                  <Form.Control type="text" placeholder="Enter first name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-                </Form.Group>
-                <Form.Group controlId="formBasicLastName">
-                  <Form.Label>Email Address</Form.Label>
-                  <Form.Control type="text" placeholder="Enter last name" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                 </Form.Group>
                 <div className="d-flex justify-content-center">
-                  <Button variant="primary" onClick={handleSave}>
+                  <Button variant="primary" onClick={handleUpdateDisplayName}>
                     Save
                   </Button>
                 </div>
               </Form>
-                <hr />
-              <Form>
-                <Form.Group controlId="formBasicProfilePicture">
-                  <FileUpload onChange={handleProfileImageUpload} />
-                </Form.Group>
-              </Form>
+            </Modal.Body>
+          </Modal>
+          <Modal show={showProfilePicModal} onHide={() => {setShowProfilePicModal(false); handleCancel()}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Profile Picture</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Form>
+              <Form.Group controlId="formBasicProfilePicture">
+                <FileUpload onChange={handleProfileImageUpload} />
+              </Form.Group>
+            </Form>
             </Modal.Body>
           </Modal>
           <h2>Stylized Images</h2>

@@ -60,15 +60,50 @@ router.post('/new_user', async function(req, res, next) {
   }
 });
 
-/* PUT update user. */
-router.put('/:username/update_user', async function(req, res, next) {
-    const username = req.params.username;
-    // Possible updates: first name, last name
-    const firstName = req.body.firstName;
-    const lastName = req.body.lastName;
+/* PUT update user email. */
+router.put('/:uid/update_user_email', async function(req, res, next) {
+  try {
+    const uid = req.params.uid;
     const email = req.body.email;
-    const user = await UserRepository.updateUserData(username, email, firstName, lastName);
+    const user = await UserRepository.updateUserEmail(uid, email);
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* PUT update user display name. */
+router.put('/:uid/update_user_display_name', async function(req, res, next) {
+  try {
+    const uid = req.params.uid;
+    const displayName = req.body.displayName;
+    const user = await UserRepository.updateUserDisplayName(uid, displayName);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* GET check if user email is taken. */
+router.get('/is_email_taken/:email', async function(req, res, next) {
+  try {
+    const email = req.params.email;
+    const bool = await UserRepository.isEmailTaken(email);
+    res.status(200).json(bool);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* GET check is user display name is taken. */
+router.get('/is_displayname_taken/:displayName', async function(req, res, next) {
+  try {
+    const displayName = req.params.displayName;
+    const bool = await UserRepository.isDisplayNameTaken(displayName);
+    res.status(200).json(bool);
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

@@ -1,13 +1,25 @@
-// Import the functions you need from the SDKs you need
 const { initializeApp } = require("firebase/app");
-const { getDatabase } = require("firebase/database");
 const { getStorage } = require("firebase/storage");
-const { getAuth } = require("firebase/auth");
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+// ADMIN ------------------------------------------------------------------------
+var admin = require("firebase-admin");
+
+var serviceAccount = require("./serviceAccountKey.json")
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://democrastyle-a73d2-default-rtdb.firebaseio.com"
+});
+
+// Initialize Realtime Database and get a reference to the service
+const database = admin.database();
+
+// Auth
+const auth = admin.auth();
+
+
+// NON-ADMIN ------------------------------------------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyBNKwf2iaK6dToVjvS9nMRv-xLK-qzXfV4",
   authDomain: "democrastyle-a73d2.firebaseapp.com",
@@ -21,16 +33,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Realtime Database and get a reference to the service
-const database = getDatabase(app);
-
 // Create a root reference
 const storage = getStorage();
 
-// Auth
-const auth = getAuth(app);
 
-exports.app = app;
+// EXPORTS ------------------------------------------------------------------------
+exports.admin = admin;
 exports.db = database;
 exports.storage = storage;
 exports.auth = auth;

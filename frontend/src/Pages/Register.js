@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Form, Card, CardHeader, CardBody, FormGroup, Label, Input} from 'reactstrap';
 import NavBar from '../Components/NavBar';
 
-export default function Register() {
+function Register() {
     const navigate = useNavigate();
 
     const { currentUser, register } = useAuth();
@@ -121,3 +121,5 @@ export default function Register() {
         </Container>
     );
 }
+
+export default Register;

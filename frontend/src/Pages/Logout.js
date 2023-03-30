@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Contexts/AuthContext";
 import { Container } from "react-bootstrap";
 
-export default function Logout() {
+function Logout() {
   const navigate = useNavigate();
 
   const { logout } = useAuth(); 
@@ -27,3 +27,5 @@ export default function Logout() {
     </Container>
   );
 }
+
+export default Logout;
