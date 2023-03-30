@@ -6,7 +6,7 @@ import NavBar from '../Components/NavBar';
 import { Container, Row, Col, Button, Form, Card, CardHeader, CardBody, FormGroup, Label, Input} from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-export default function Login() {
+function Login() {
     const navigate = useNavigate();
 
     const { currentUser, login } = useAuth();
@@ -16,7 +16,7 @@ export default function Login() {
 
     useEffect(() => {
         if (currentUser) {
-        navigate("/");
+            navigate("/");
         }
     }, [currentUser, navigate]);
 
@@ -91,3 +91,5 @@ export default function Login() {
         </Container>
     );
 };
+
+export default Login;

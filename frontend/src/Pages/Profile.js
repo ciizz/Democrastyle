@@ -1,94 +1,89 @@
 import React, { useEffect, useState } from 'react';
+import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Spinner, Image, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
 
-import { useAuth } from '../Contexts/AuthContext';
-
 function Profile() {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
-  const [username, setUsername] = useState("");
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+
+  const { currentUser, updateDisplayName, updateProfilePicture } = useAuth();
+
+  const [userId, setUserId] = useState('');
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [stylizedImages, setStylizedImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
+  const [showProfilePicModal, setShowProfilePicModal] = useState(false);
 
   useEffect(() => {
-    async function fetchUser() {
+
+    async function fetchUserProfile() {
       if (!currentUser) {
         navigate('/login');
       } else {
-        setUsername(currentUser.displayName);
-        console.log(currentUser);
-        try {
-          const user = await APIService.getUserByUsername(username);
-          setUser(user);
-          setEmail(user.email);
-          setFirstName(user.firstName);
-          setLastName(user.lastName);
-          setProfilePicture(user.profilePicture);
-          console.log(user.profilePicture);
-          setLoading(false);
-        } catch (error) {
-          console.error(error);
-        }
-      }
-    }
-
-    async function fetchProfilePicture() {
-      try {
-        const profilePicture = await APIService.getUserProfilePic(username);
-        setProfilePicture(profilePicture);
-      } catch (error) {
-        console.error(error);
+        setUserId(currentUser.uid);
+        setDisplayName(currentUser.displayName);
+        setEmail(currentUser.email);
+        setProfilePicture(currentUser.photoURL);
+        setLoading(false);
       }
     }
 
     async function fetchStylizedImages() {
       try {
-        const images = await APIService.getStylizedImagesByUser(username);
+        const images = await APIService.getStylizedImagesByUser(userId);
         setStylizedImages(images);
       } catch (error) {
         console.error(error);
       }
     }
 
-    fetchUser();
-    fetchProfilePicture();
+    fetchUserProfile();
     fetchStylizedImages();
-  }, [username, currentUser, navigate]);
+  }, [currentUser, userId, navigate]);
 
-  const handleSave = async () => {
+  const handleUpdateDisplayName = async () => {
     try {
-      const updatedUser = { ...user, firstName, lastName };
-      await APIService.updateUser(username, email, firstName, lastName);
-      setUser(updatedUser);
-      setShowModal(false);
+      // check if displayName changed
+      if (displayName !== currentUser.displayName) {
+        const displayNameTaken = await APIService.isDisplayNameTaken(displayName);
+        if (displayNameTaken) {
+          <Alert variant='danger'>
+            Display name already taken.
+          </Alert>
+        } else {
+          console.log("updating display name");
+          await updateDisplayName(displayName);
+          setDisplayName(displayName);
+        }
+      }
+
+      setShowDisplayNameModal(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const handleCancel = () => {
-    setFirstName(user.firstName);
-    setLastName(user.lastName);
-    setShowModal(false);
+    setDisplayName(currentUser.displayName);
+    setShowDisplayNameModal(false);
+    setProfilePicture(currentUser.photoURL);
+    setShowProfilePicModal(false);
   };
 
   const handleProfileImageUpload = async (event) => {
     try {
       const file = event.target.files[0];
       if (file) {
-        await APIService.updateUserProfilePic(username, file);
-        setProfilePicture(URL.createObjectURL(file));
-        setShowModal(false);
+        const profilePic = await APIService.uploadUserProfilePic(userId, file);
+        await updateProfilePicture(profilePic);
+        setProfilePicture(profilePic);
+        setShowDisplayNameModal(false);
       }
     } catch (error) {
       console.error(error);
@@ -107,69 +102,70 @@ function Profile() {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           </Container>
-        ) : user ? (
-          <Container className="mt-5 d-flex flex-column align-items-center">
-            <Row>
-              <Col sm={4}>
-                <Image src={profilePicture} roundedCircle fluid />
-                <Button className="mt-2" onClick={() => setShowModal(true)}>Edit</Button>
-              </Col>
-              <Col sm={8}>
-                <h1>{user.firstName} {user.lastName}</h1>
-                <h3>@{user.username}</h3>
-                <p>{user.email}</p>
-              </Col>
-            </Row>
-            <Modal show={showModal} onHide={() => {setShowModal(false); handleCancel()}}>
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Profile</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <p>Update your profile information.</p>
-                    <Form.Group controlId="formBasicFirstName">
-                      <Form.Label>First Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter first name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                    </Form.Group>
-                    <Form.Group controlId="formBasicLastName">
-                      <Form.Label>Last Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter last name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                    </Form.Group>
-                    <div className="d-flex justify-content-center">
-                      <Button variant="primary" onClick={handleSave}>
-                        Save
-                      </Button>
-                    </div>
-                  </Form>
-                    <hr />
-                  <Form>
-                    <Form.Group controlId="formBasicProfilePicture">
-                      <FileUpload onChange={handleProfileImageUpload} />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-        </Modal>
-        <h2>Stylized Images</h2>
-        {stylizedImages.length > 0 ? (
+        ) : currentUser ? (
+        <Container className="mt-5 d-flex flex-column align-items-center">
           <Row>
-            {stylizedImages.map((image, index) => (
-              <Col key={index} sm={4}>
-                <Image src={image.url} fluid className="image-container" />
-              </Col>
-            ))}
+            <Col sm={4}>
+              <Image src={profilePicture} roundedCircle fluid />
+              <Button className="mt-2" onClick={() => setShowProfilePicModal(true)}>Edit</Button>
+            </Col>
+            <Col sm={8}>
+              <h3>@{displayName} <Button className="mt-2" onClick={() => setShowDisplayNameModal(true)}>Edit</Button></h3>
+              <p>{email}</p>
+            </Col>
           </Row>
+          <Modal show={showDisplayNameModal} onHide={() => {setShowDisplayNameModal(false); handleCancel()}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Display Name</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <p>Update your profile information.</p>
+                <Form.Group controlId="formBasicFirstName">
+                  <Form.Label>Display Name</Form.Label>
+                  <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                </Form.Group>
+                <div className="d-flex justify-content-center">
+                  <Button variant="primary" onClick={handleUpdateDisplayName}>
+                    Save
+                  </Button>
+                </div>
+              </Form>
+            </Modal.Body>
+          </Modal>
+          <Modal show={showProfilePicModal} onHide={() => {setShowProfilePicModal(false); handleCancel()}}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Profile Picture</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Form>
+              <Form.Group controlId="formBasicProfilePicture">
+                <FileUpload onChange={handleProfileImageUpload} />
+              </Form.Group>
+            </Form>
+            </Modal.Body>
+          </Modal>
+          <h2>Stylized Images</h2>
+          { stylizedImages && stylizedImages.length > 0 ? (
+            <Row>
+              {stylizedImages.map((image, index) => (
+                <Col key={index} sm={4}>
+                  <Image src={image.url} fluid className="image-container" />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <p>No stylized images found.</p>
+          )}
+        </Container>
         ) : (
-          <p>No stylized images found.</p>
+        <Container className="mt-5 d-flex flex-column align-items-center">
+          <h1>User not found.</h1>
+        </Container>
         )}
       </Container>
-    ) : (
-      <Container className="mt-5 d-flex flex-column align-items-center">
-        <h1>User not found.</h1>
-      </Container>
-    )}
-  </Container>
-</Container>
-);
+    </Container>
+  );
 }
 
 export default Profile;
