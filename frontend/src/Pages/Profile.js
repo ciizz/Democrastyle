@@ -72,6 +72,8 @@ function Profile() {
   const handleCancel = () => {
     setDisplayName(currentUser.displayName);
     setShowDisplayNameModal(false);
+    setProfilePicture(currentUser.photoURL);
+    setShowProfilePicModal(false);
   };
 
   const handleProfileImageUpload = async (event) => {

@@ -7,7 +7,6 @@ import APIService from '../Middleware/APIService';
 function Result() {
     const location = useLocation();
     const props = location.state;
-    console.log(props);
 
     const contentImage = props.contentImage;
     const styleImage = props.styleImage;

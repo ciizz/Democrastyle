@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth } from '../Contexts/AuthContext';
 import { Container, Card, Row, Col, Image, Button, Collapse } from 'react-bootstrap';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -7,6 +8,7 @@ import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 
 function StyleTransfer() {
+  const { currentUser } = useAuth();
   const [contentImage, setContentImage] = useState(null);
   const [contentImageName, setContentImageName] = useState(null);
   const [contentImageURL, setContentImageURL] = useState(null);
@@ -139,7 +141,7 @@ function StyleTransfer() {
                   styleImage: styleImage,
                   contentImageName: contentImageName,
                   syleImageName: styleImageName,
-                  user: "ciz"
+                  user: currentUser.uid
                 }}
               >
                 <Button variant="primary" size="lg" disabled={isSubmitDisabled}>
