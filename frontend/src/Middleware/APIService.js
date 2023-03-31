@@ -62,6 +62,11 @@ class APIService {
         const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/stylized_images');
         return response.data;
     }
+
+    static async getPremadeStyles() {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/premade_styles');
+        return response.data;
+    }
 }
 
 export default APIService;

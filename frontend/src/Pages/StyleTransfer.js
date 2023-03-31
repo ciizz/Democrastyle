@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
-import { Container, Card, Row, Col, Image, Button, Collapse } from 'react-bootstrap';
+import { Container, Card, Row, Col, Image, Button, Collapse, Spinner } from 'react-bootstrap';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
+import APIService from '../Middleware/APIService';
+
 
 function StyleTransfer() {
   const { currentUser } = useAuth();
@@ -15,8 +17,25 @@ function StyleTransfer() {
   const [styleImage, setStyleImage] = useState(null);
   const [styleImageName, setStyleImageName] = useState(null);
   const [styleImageURL, setStyleImageURL] = useState(null);
+  const [premadeStyles, setPremadeStyles] = useState([]);
   const [premadeStylesVisible, setPremadeStylesVisible] = useState(false);
+  const [premadeStylesLoading, setPremadeStylesLoading] = useState(true);
+  const [selectedStyleIdx, setSelectedStyleIdx] = useState(null);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
+
+  useEffect(() => {
+    setPremadeStylesLoading(true);    
+    const getPremadeStyles = async () => {
+      try {
+        const styles = await APIService.getPremadeStyles();
+        setPremadeStyles(styles);
+        setPremadeStylesLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getPremadeStyles();
+  }, []);
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
@@ -37,6 +56,17 @@ function StyleTransfer() {
       setStyleImageURL(URL.createObjectURL(file));
     }
   };
+
+  const handlePremadeStyleClick = async (styleIdx) => {
+    setSelectedStyleIdx(styleIdx);
+    const style = premadeStyles[styleIdx];
+    setStyleImageName(style.filename);
+    setStyleImageURL(style.url);
+    const response = await fetch(style.url);
+    const blob = await response.blob();
+    const file = new File([blob], style.filename, { type : 'image/jpeg' });
+    setStyleImage(file);
+  }
 
   return (
     <Container>
@@ -98,30 +128,40 @@ function StyleTransfer() {
                   </Button>
                   </Card.Text>
                   <Collapse in={premadeStylesVisible}>
+                    { premadeStylesLoading ?
                     <div id="collapse-styles">
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 1" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </Spinner>
+                        </Col>
+                      </Row>
+                    </div> :
+                    <div id="collapse-styles">
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(0)} isSelected={selectedStyleIdx === 0} title={premadeStyles[0].filename} image={premadeStyles[0].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 2" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(1)} isSelected={selectedStyleIdx === 1} title={premadeStyles[1].filename} image={premadeStyles[1].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 3" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(2)} isSelected={selectedStyleIdx === 2} title={premadeStyles[2].filename} image={premadeStyles[2].url}/>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 4" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(3)} isSelected={selectedStyleIdx === 3} title={premadeStyles[3].filename} image={premadeStyles[3].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 5" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(4)} isSelected={selectedStyleIdx === 4} title={premadeStyles[4].filename} image={premadeStyles[4].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title="Style 6" image="https://i.imgur.com/1ZQ3Q2M.jpg"/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(5)} isSelected={selectedStyleIdx === 5} title={premadeStyles[5].filename} image={premadeStyles[5].url}/>
                         </Col>
                       </Row>
-                    </div>
+                    </div> }
                   </Collapse>
                 </Card.Body>
               </Card>

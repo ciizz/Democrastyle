@@ -15,6 +15,16 @@ router.get('/stylized_images', async function(req, res, next) {
     }
 });
 
+/* GET all premade styles. */
+router.get('/premade_styles', async function(req, res, next) {
+    try {
+        const premadeStyles = await ImageRepository.getPremadeStyles();
+        res.status(200).json(premadeStyles);
+    } catch (error) {
+        next(error);
+    }
+});
+
 /* POST perform inference. */
 // TODO: either rename each file from the frontend (this way they can have same name, won't matter for us),
 // or send key-value pairs with request indicating which file is which (content or style)
