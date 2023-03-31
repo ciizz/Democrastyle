@@ -40,13 +40,16 @@ exports.getPremadeStyles = async () => {
 
     let premadeStyles = [];
 
-    const res = await listAll(imagesRef);
-    for (const item of res.items) {
-        const url = await getDownloadURL(item);
-        const filename = item.name;
-        premadeStyles.push({url, filename});
-      }
-
+    try {
+        const res = await listAll(imagesRef);
+        for (const item of res.items) {
+            const url = await getDownloadURL(item);
+            const filename = item.name;
+            premadeStyles.push({url, filename});
+        }
+    } catch (error) {
+        console.log(error);
+    }
     return premadeStyles;
 }
 
@@ -132,8 +135,7 @@ exports.saveStyleImageToDB = async (image_S3_key, username) => {
 exports.saveStylizedImageToDB = async (S3_key, url, username, contentImageKey, styleImageKey) => {
     const stylizedImage = new StylizedImage(S3_key, url, username, contentImageKey, styleImageKey);
     try {
-        const snapshot = await set(db_ref(db, 'stylizedImages/' + S3_key), stylizedImage);
-        console.log(snapshot);
+        await set(db_ref(db, 'stylizedImages/' + S3_key), stylizedImage);
         return stylizedImage;
     } catch (error) {
         console.log(error);

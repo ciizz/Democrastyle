@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
-import { Container, Card, Row, Col, Image, Button, Collapse } from 'react-bootstrap';
+import { Container, Card, Row, Col, Image, Button, Collapse, Spinner } from 'react-bootstrap';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 import APIService from '../Middleware/APIService';
+
 
 function StyleTransfer() {
   const { currentUser } = useAuth();
@@ -18,13 +19,16 @@ function StyleTransfer() {
   const [styleImageURL, setStyleImageURL] = useState(null);
   const [premadeStyles, setPremadeStyles] = useState([]);
   const [premadeStylesVisible, setPremadeStylesVisible] = useState(false);
+  const [premadeStylesLoading, setPremadeStylesLoading] = useState(true);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   useEffect(() => {
+    setPremadeStylesLoading(true);    
     const getPremadeStyles = async () => {
       try {
         const styles = await APIService.getPremadeStyles();
         setPremadeStyles(styles);
+        setPremadeStylesLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -51,6 +55,15 @@ function StyleTransfer() {
       setStyleImageURL(URL.createObjectURL(file));
     }
   };
+
+  const handlePremadeStyleClick = async (style) => {
+    setStyleImageName(style.filename);
+    setStyleImageURL(style.url);
+    const response = await fetch(style.url);
+    const blob = await response.blob();
+    const file = new File([blob], style.filename, { type : 'image/jpeg' });
+    setStyleImage(file);
+  }
 
   return (
     <Container>
@@ -112,30 +125,40 @@ function StyleTransfer() {
                   </Button>
                   </Card.Text>
                   <Collapse in={premadeStylesVisible}>
+                    { premadeStylesLoading ?
                     <div id="collapse-styles">
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[0].filename} image={premadeStyles[0].url}/>
+                          <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                          </Spinner>
+                        </Col>
+                      </Row>
+                    </div> :
+                    <div id="collapse-styles">
+                      <Row>
+                        <Col>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[0])} title={premadeStyles[0].filename} image={premadeStyles[0].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[1].filename} image={premadeStyles[1].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[1])} title={premadeStyles[1].filename} image={premadeStyles[1].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[2].filename} image={premadeStyles[2].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[2])} title={premadeStyles[2].filename} image={premadeStyles[2].url}/>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[3].filename} image={premadeStyles[3].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[3])} title={premadeStyles[3].filename} image={premadeStyles[3].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[4].filename} image={premadeStyles[4].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[4])} title={premadeStyles[4].filename} image={premadeStyles[4].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={handleStyleImageUpload} title={premadeStyles[5].filename} image={premadeStyles[5].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[5])} title={premadeStyles[5].filename} image={premadeStyles[5].url}/>
                         </Col>
                       </Row>
-                    </div>
+                    </div> }
                   </Collapse>
                 </Card.Body>
               </Card>
