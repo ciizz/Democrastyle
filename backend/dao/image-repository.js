@@ -1,11 +1,12 @@
 const { db } = require('../config/firebase');
 const { ref: db_ref, set, get } = require("firebase/database");
-const InputImage = require('../models/InputImage');
-const StylizedImage = require('../models/StylizedImage');
 const { Upload } = require("@aws-sdk/lib-storage");
 const { S3 } = require("@aws-sdk/client-s3");
+const InputImage = require('../models/InputImage');
+const StylizedImage = require('../models/StylizedImage');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
+
 
 const s3 = new S3({
     region: "us-east-2"

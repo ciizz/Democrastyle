@@ -1,7 +1,6 @@
 const { auth, db, storage } = require('../config/firebase');
 const { ref, set, get } = require("firebase/database");
 const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/storage");
-const User = require('../models/user');
 
 /** 
  * @param {string} filename
