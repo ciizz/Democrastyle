@@ -63,7 +63,10 @@ class APIService {
         return response.data;
     }
 
-    static async getPremadeStyles() {}
+    static async getPremadeStyles() {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/premade_styles');
+        return response.data;
+    }
 }
 
 export default APIService;
