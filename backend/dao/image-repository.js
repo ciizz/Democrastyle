@@ -1,5 +1,6 @@
-const { db } = require('../config/firebase');
+const { admin, db, storage} = require('../config/firebase');
 const { ref: db_ref, set, get } = require("firebase/database");
+const { ref: storage_ref, uploadBytes, getDownloadURL, listAll } = require("firebase/storage");
 const { Upload } = require("@aws-sdk/lib-storage");
 const { S3 } = require("@aws-sdk/client-s3");
 const InputImage = require('../models/InputImage');
@@ -25,6 +26,28 @@ exports.getAllStylizedImages = async () => {
         result.push(stylizedImages[key]);
     }
     return result;
+}
+
+/**
+ * 
+ * @param {}
+ * @returns
+ * @description gets all premade style images
+ */
+exports.getPremadeStyles = async () => {
+    // Create a reference under which you want to list
+    const imagesRef = storage_ref(storage, 'premadeStyles');
+
+    let premadeStyles = [];
+
+    const res = await listAll(imagesRef);
+    for (const item of res.items) {
+        const url = await getDownloadURL(item);
+        const filename = item.name;
+        premadeStyles.push({url, filename});
+      }
+
+    return premadeStyles;
 }
 
 /**
