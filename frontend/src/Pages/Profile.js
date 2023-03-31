@@ -83,7 +83,7 @@ function Profile() {
         const profilePic = await APIService.uploadUserProfilePic(userId, file);
         await updateProfilePicture(profilePic);
         setProfilePicture(profilePic);
-        setShowDisplayNameModal(false);
+        setShowProfilePicModal(false);
       }
     } catch (error) {
       console.error(error);
