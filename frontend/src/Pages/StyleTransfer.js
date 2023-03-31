@@ -20,6 +20,7 @@ function StyleTransfer() {
   const [premadeStyles, setPremadeStyles] = useState([]);
   const [premadeStylesVisible, setPremadeStylesVisible] = useState(false);
   const [premadeStylesLoading, setPremadeStylesLoading] = useState(true);
+  const [selectedStyleIdx, setSelectedStyleIdx] = useState(null);
   const isSubmitDisabled = contentImage === '' || styleImage === '' || contentImage === null || styleImage === null;
 
   useEffect(() => {
@@ -56,7 +57,9 @@ function StyleTransfer() {
     }
   };
 
-  const handlePremadeStyleClick = async (style) => {
+  const handlePremadeStyleClick = async (styleIdx) => {
+    setSelectedStyleIdx(styleIdx);
+    const style = premadeStyles[styleIdx];
     setStyleImageName(style.filename);
     setStyleImageURL(style.url);
     const response = await fetch(style.url);
@@ -138,24 +141,24 @@ function StyleTransfer() {
                     <div id="collapse-styles">
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[0])} title={premadeStyles[0].filename} image={premadeStyles[0].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(0)} isSelected={selectedStyleIdx === 0} title={premadeStyles[0].filename} image={premadeStyles[0].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[1])} title={premadeStyles[1].filename} image={premadeStyles[1].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(1)} isSelected={selectedStyleIdx === 1} title={premadeStyles[1].filename} image={premadeStyles[1].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[2])} title={premadeStyles[2].filename} image={premadeStyles[2].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(2)} isSelected={selectedStyleIdx === 2} title={premadeStyles[2].filename} image={premadeStyles[2].url}/>
                         </Col>
                       </Row>
                       <Row>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[3])} title={premadeStyles[3].filename} image={premadeStyles[3].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(3)} isSelected={selectedStyleIdx === 3} title={premadeStyles[3].filename} image={premadeStyles[3].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[4])} title={premadeStyles[4].filename} image={premadeStyles[4].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(4)} isSelected={selectedStyleIdx === 4} title={premadeStyles[4].filename} image={premadeStyles[4].url}/>
                         </Col>
                         <Col>
-                          <PremadeStyle onSelect={() => handlePremadeStyleClick(premadeStyles[5])} title={premadeStyles[5].filename} image={premadeStyles[5].url}/>
+                          <PremadeStyle onSelect={() => handlePremadeStyleClick(5)} isSelected={selectedStyleIdx === 5} title={premadeStyles[5].filename} image={premadeStyles[5].url}/>
                         </Col>
                       </Row>
                     </div> }

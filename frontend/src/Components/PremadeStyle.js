@@ -11,8 +11,9 @@ const PremadeStyle = (props) => {
                 <Button
                 variant="primary"
                 onClick={props.onSelect}
+                disabled={props.isSelected}
                 >
-                Select
+                { props.isSelected ? 'Selected' : 'Select'}
                 </Button>
             </Card.Body>
         </Card>
