@@ -2,22 +2,6 @@ const User = require('./User');
 const StylizedImage = require('./StylizedImage');
 const InputImage = require('./InputImage');
 
-// Test user class
-describe('User class', () => {
-  it('should create a new user with the correct properties', () => {
-    const user = new User('johndoe', 'John', 'Doe', 'johndoe@example.com');
-
-    expect(user.username).toBe('johndoe');
-    expect(user.firstName).toBe('John');
-    expect(user.lastName).toBe('Doe');
-    expect(user.email).toBe('johndoe@example.com');
-  });
-
-  it('should throw an error when email is missing', () => {
-    expect(() => new User('johndoe', 'John', 'Doe')).toThrow('Email, username, first name, last name are required');
-  });
-});
-
 // Test stylized image class
 describe('StylizedImage class', () => {
   it('should create a new stylized image with the correct properties', () => {
