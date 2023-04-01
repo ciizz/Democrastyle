@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Image } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 
+import { getImageSize } from 'react-image-size';
+import PhotoAlbum from "react-photo-album";
+
 function Explore() {
+  let navigate = useNavigate();
+
   const [stylizedImages, setStylizedImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    async function fetchImageSize(image) {
+      try {
+        const dims = await getImageSize(image.url);
+        return { ...image, ...dims, src: image.url };
+      } catch (error) {
+        console.error(error);
+      }
+    }
     async function fetchStylizedImages() {
       try {
         const images = await APIService.getAllStylizedImages();
-        setStylizedImages(images);
+        // const sizedImages = images.map(i => { return { ...i, src: i.url, width: 1080, height: 1080, } }); // await Promise.all(images.map(i => fetchImageSize(i)));
+        const sizedImages = await Promise.all(images.map(i => fetchImageSize(i)));
+        setStylizedImages(sizedImages);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -23,33 +38,39 @@ function Explore() {
   }, []);
 
   return (
-    <Container>
-      <NavBar />
-      <Container className="mt-5 d-flex flex-column align-items-center">
-        <h1>Explore Stylized Images</h1>
-        <p>Click on an image to visit user profile.</p>
-        {loading ? (
-          <Container className="mt-5 d-flex flex-column align-items-center">
-            <h1>Loading images...</h1>
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </Container>
-        ) : stylizedImages.length > 0 ? (
-          <Row>
-            {stylizedImages.map((image, index) => (
-              <Col key={index} sm={4} className="mb-3">
-                <Link to={`/Profile/${image.user}`}>
-                  <Image src={image.url} fluid className="image-container" />
-                </Link>
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <p>No stylized images found.</p>
-        )}
+    <>
+      <Container>
+        <NavBar />
+        <Container className="mt-5 d-flex flex-column align-items-center">
+          <h1>Explore Stylized Images</h1>
+          <p>Click on an image to visit user profile.</p>
+          {loading &&
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <h1>Loading images...</h1>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </Container>
+          }
+          {!loading && stylizedImages.length === 0 &&
+            <p>No stylized images found.</p>
+          }
+        </Container>
+
+        <PhotoAlbum
+          photos={stylizedImages}
+          layout="columns"
+          // columns={3}
+          columns={(containerWidth) => {
+            if (containerWidth < 400) return 1;
+            if (containerWidth < 800) return 2;
+            if (containerWidth < 1400) return 3;
+            return 4;
+          }}
+          onClick={({ photo }) => navigate(`/Profile/${photo.user}`)}
+        />
       </Container>
-    </Container>
+    </>
   );
 }
 
