@@ -67,6 +67,12 @@ class APIService {
         const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/premade_styles');
         return response.data;
     }
+
+    static async getImageData(imageUrl) {
+        const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+        let buffer = await new Response(response.data).arrayBuffer();
+        return new Uint8Array(buffer);
+    }
 }
 
 export default APIService;
