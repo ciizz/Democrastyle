@@ -73,6 +73,11 @@ class APIService {
         let buffer = await new Response(response.data).arrayBuffer();
         return new Uint8Array(buffer);
     }
+
+    static async getRequestCounts() {
+        const response = await axios.get(DEMOCRASTYLE_API_URL + 'images/request_counts');
+        return response.data;
+    }
 }
 
 export default APIService;
