@@ -85,6 +85,7 @@ function Home() {
       <section className="text-center my-5" style={{ fontStyle: 'italic', color: 'gray' }}>
         <h2>Requests Summary</h2>
         <p>Total number of requests Requests: {totalRequests}</p>
+        <p>Number of requests per country:</p>
         <canvas ref={chartRef} width="400" height="400"></canvas>
       </section>
     </Container>
