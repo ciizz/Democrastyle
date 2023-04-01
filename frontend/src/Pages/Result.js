@@ -47,34 +47,38 @@ function Result() {
 
     return (
         <Container>
-            <NavBar />
+          <NavBar />
+          <Container className="mt-5 d-flex flex-column align-items-center">
+            <Row>
+              {stylizedImage ? (
+                <Col style={{ textAlign: 'center' }}>
+                  <h1>Here is your stylized image:</h1>
+                  <Image src={stylizedImage} style={{ maxHeight: '500px', maxWidth: '500px' }} />
+                </Col>
+              ) : (
+                <Col style={{ textAlign: 'center' }}>
+                  {serverError ? (
+                    <h2>There was an error generating your image. Please try again later.</h2>
+                  ) : (
+                    <div>
+                      <h1>Generating image</h1>
+                      <br />
+                      <Spinner animation="border" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </Spinner>
+                    </div>
+                  )}
+                </Col>
+              )}
+            </Row>
+          </Container>
+          {stylizedImage && (
             <Container className="mt-5 d-flex flex-column align-items-center">
-                <Row>
-                    {stylizedImage ? (
-                        <Col style={{ textAlign: 'center' }}>
-                            <h1>Here is your stylized image:</h1>
-                            <Image src={stylizedImage} style={{ maxHeight: '500px', maxWidth: '500px' }} />
-                            <Button variant="primary" className="mt-3" onClick={handleDownloadClick}>Download</Button>
-                        </Col>
-                    ) : (
-                        <Col style={{ textAlign: 'center' }}>
-                            {serverError ? (
-                                <h2>There was an error generating your image. Please try again later.</h2>
-                            ) : (
-                                <div>
-                                    <h1>Generating image</h1>
-                                    <br />
-                                    <Spinner animation="border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </Spinner>
-                                </div>
-                            )}
-                        </Col>
-                    )}
-                </Row>
+              <Button variant="primary" className="mt-3" onClick={handleDownloadClick}>Download</Button>
             </Container>
+          )}
         </Container>
-    );
+      );
 }
 
 export default Result;
