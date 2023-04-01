@@ -1,7 +1,11 @@
+
+
+
+
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
@@ -90,7 +94,6 @@ function Profile() {
     }
   };
 
-
   return (
     <Container>
       <NavBar />
@@ -106,12 +109,24 @@ function Profile() {
         <Container className="mt-5 d-flex flex-column align-items-center">
           <Row>
             <Col sm={4}>
-              <Image src={profilePicture} roundedCircle fluid />
-              <Button className="mt-2" onClick={() => setShowProfilePicModal(true)}>Edit</Button>
+              {/* <Image src={profilePicture} roundedCircle fluid onClick={() => setShowProfilePicModal(true)} />
+              <div variant="justify" className="mt-2" >Click to edit</div> */}
+              <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
+              >
+                <Image
+                  src={profilePicture}
+                  roundedCircle
+                  fluid
+                  onClick={() => setShowProfilePicModal(true)}
+                />
+              </OverlayTrigger>
             </Col>
             <Col sm={8}>
-              <h3>@{displayName} <Button className="mt-2" onClick={() => setShowDisplayNameModal(true)}>Edit</Button></h3>
-              <p>{email}</p>
+              <a href="#" onClick={() => setShowDisplayNameModal(true)}>
+              <h3>@{displayName} </h3>
+              </a>
             </Col>
           </Row>
           <Modal show={showDisplayNameModal} onHide={() => {setShowDisplayNameModal(false); handleCancel()}}>
@@ -126,7 +141,7 @@ function Profile() {
                   <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
                 </Form.Group>
                 <div className="d-flex justify-content-center">
-                  <Button variant="primary" onClick={handleUpdateDisplayName}>
+                  <Button variant="primary" className="mt-2" onClick={handleUpdateDisplayName}>
                     Save
                   </Button>
                 </div>
