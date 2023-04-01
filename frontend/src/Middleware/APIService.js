@@ -3,19 +3,21 @@ import axios from 'axios';
 const DEMOCRASTYLE_API_URL = 'http://localhost:8080/';
 
 class APIService {
-    
-    static async performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user) {
+
+    static async performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user, styleImageSize, sampleMode) {
         const formData = new FormData();
         formData.append('images', contentImage);
         formData.append('images', styleImage);
         formData.append('contentImageName', contentImageName);
         formData.append('styleImageName', styleImageName);
         formData.append('user', user);
+        formData.append('styleImageSize', styleImageSize);
+        formData.append('sampleMode', sampleMode);
         const config = {
             headers: {
-              'Content-Type': 'multipart/form-data'
+                'Content-Type': 'multipart/form-data'
             }
-          };
+        };
         const response = await axios.post(DEMOCRASTYLE_API_URL + 'images/perform_inference', formData, config);
         return response.data;
     }
@@ -44,7 +46,7 @@ class APIService {
     }
 
     static async updateEmail(uid, email) {
-        const response = await axios.put(DEMOCRASTYLE_API_URL + 'users/' + uid + '/update_user_email', {email: email});
+        const response = await axios.put(DEMOCRASTYLE_API_URL + 'users/' + uid + '/update_user_email', { email: email });
         return response.data;
     }
 

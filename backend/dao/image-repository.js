@@ -1,4 +1,4 @@
-const { admin, db, storage} = require('../config/firebase');
+const { admin, db, storage } = require('../config/firebase');
 const { ref: db_ref, set, get } = require("firebase/database");
 const { ref: storage_ref, uploadBytes, getDownloadURL, listAll } = require("firebase/storage");
 const { Upload } = require("@aws-sdk/lib-storage");
@@ -47,7 +47,7 @@ exports.getPremadeStyles = async () => {
         for (const item of res.items) {
             const url = await getDownloadURL(item);
             const filename = item.name;
-            premadeStyles.push({url, filename});
+            premadeStyles.push({ url, filename });
         }
     } catch (error) {
         console.log(error);
@@ -146,16 +146,16 @@ exports.saveStylizedImageToDB = async (S3_key, url, username, contentImageKey, s
 
 /**
  */
-exports.performStyleTransfer = async (contentImageKey, styleImageKey) => {
+exports.performStyleTransfer = async (contentImageKey, styleImageKey, styleImageSize = 512, sampleMode = "scale") => {
     const styleReqBody = {
         "content": {
-          "key": contentImageKey,
-          "size": 1024
+            "key": contentImageKey,
+            "size": 1024
         },
         "style": {
-          "key": styleImageKey,
-          "size": 512,
-          "sampleMode": "scale"
+            "key": styleImageKey,
+            "size": styleImageSize,
+            "sampleMode": sampleMode
         }
     }
 
@@ -178,8 +178,8 @@ exports.trackRequestLocation = async (req) => {
         const snapshot = await get(countRef);
         if (snapshot.exists()) {
             const count = snapshot.val();
-            await set(countRef, count+1);
-            console.log(`Count value for ${geo.country} is ${count+1}`);
+            await set(countRef, count + 1);
+            console.log(`Count value for ${geo.country} is ${count + 1}`);
         } else {
             console.log(`No count value found for ${geo.country}, initializing to 1`);
             // set the initial count value to 0 if it doesn't exist
