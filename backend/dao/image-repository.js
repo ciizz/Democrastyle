@@ -7,6 +7,8 @@ const InputImage = require('../models/InputImage');
 const StylizedImage = require('../models/StylizedImage');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
+const requestIp = require('request-ip');
+const geoip = require('geoip-lite');
 
 
 const s3 = new S3({
@@ -159,4 +161,32 @@ exports.performStyleTransfer = async (contentImageKey, styleImageKey) => {
 
     const styleRes = await axios.post(process.env.STYLE_TRANSFER_API_URL, styleReqBody);
     return styleRes;
+}
+
+
+/**
+ * 
+ */
+exports.trackRequestLocation = async (req) => {
+    console.log("Tracking location...");
+    const clientIp = requestIp.getClientIp(req);
+    const geo = geoip.lookup(clientIp);
+    if (geo && geo.country) {
+        console.log(`Request from ${geo.country}`);
+        const countRef = db_ref(db, 'requestsPerLocation/' + geo.country);
+        // check if the count value exists
+        const snapshot = await get(countRef);
+        if (snapshot.exists()) {
+            const count = snapshot.val();
+            await set(countRef, count+1);
+            console.log(`Count value for ${geo.country} is ${count+1}`);
+        } else {
+            console.log(`No count value found for ${geo.country}, initializing to 1`);
+            // set the initial count value to 0 if it doesn't exist
+            await set(countRef, 1);
+        }
+    } else {
+        console.log(`Could not determine location for IP address: ${clientIp}`);
+        // optionally, skip tracking the location information for this request
+    }
 }
