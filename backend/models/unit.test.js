@@ -1,4 +1,3 @@
-const User = require('./User');
 const StylizedImage = require('./StylizedImage');
 const InputImage = require('./InputImage');
 
