@@ -190,3 +190,13 @@ exports.trackRequestLocation = async (req) => {
         // optionally, skip tracking the location information for this request
     }
 }
+
+/**
+ * 
+ */
+exports.getRequestCounts = async () => {
+    const snapshot = await get(db_ref(db, 'requestsPerLocation'));
+    const count = snapshot.val();
+    console.log(count);
+    return count;
+}

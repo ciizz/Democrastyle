@@ -15,6 +15,16 @@ router.get('/stylized_images', async function (req, res, next) {
     }
 });
 
+/* GET request counts. */
+router.get('/request_counts', async function(req, res, next) {
+    try {
+        const requestCounts = await ImageRepository.getRequestCounts();
+        res.status(200).json(requestCounts);
+    } catch (error) {
+        next(error);
+    }
+});
+
 /* GET all premade styles. */
 router.get('/premade_styles', async function (req, res, next) {
     try {
