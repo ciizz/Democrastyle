@@ -78,6 +78,7 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
         const stylizedImageURL = styleRes.data.url;
         // save to db
         await ImageRepository.saveStylizedImageToDB(stylizedImageKey, stylizedImageURL, username, contentImageKey, styleImageKey);
+        ImageRepository.trackRequestLocation(req);
         res.status(200).json({
             message: "Style transfer successful",
             imageURL: stylizedImageURL
