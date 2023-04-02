@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useAuth } from "../Contexts/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import NavBar from '../Components/NavBar';
 import { Container, Row, Col, Button, Form, Card, CardHeader, CardBody, FormGroup, Label, Input } from 'reactstrap';
 import { Link } from 'react-router-dom';
 

@@ -4,7 +4,6 @@ import { useAuth } from "../Contexts/AuthContext";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Button, Form, Card, CardHeader, CardBody, FormGroup, Label, Input } from 'reactstrap';
-import NavBar from '../Components/NavBar';
 
 function Register() {
     const navigate = useNavigate();

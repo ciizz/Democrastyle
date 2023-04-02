@@ -14,9 +14,12 @@ var imageRouter = require('./routes/image-routes');
 
 var app = express();
 
-// const port = 8080;
-
-// app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+if (process.env.NODE_ENV === 'dev') {
+  const port = 8080;
+  app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+  });
+}
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
