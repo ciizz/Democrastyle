@@ -71,7 +71,6 @@ function StyleTransfer() {
 
   return (
     <Container>
-      <NavBar />
       <Container fluid="md">
         <Row style={{ marginBottom: '40px' }}>
           <Col>

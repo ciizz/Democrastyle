@@ -50,7 +50,6 @@ function Result() {
 
   return (
     <Container>
-      <NavBar />
       <Container className="mt-5 d-flex flex-column align-items-center">
         <Row>
           {stylizedImage ? (
