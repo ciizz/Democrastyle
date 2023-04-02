@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Image, Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 
 function Result() {
@@ -34,7 +33,7 @@ function Result() {
       }
     }
     performStyleTransfer();
-  }, [contentImage, styleImage, contentImageName, styleImageName, user]);
+  }, [contentImage, styleImage, contentImageName, styleImageName, user, styleImageSize, sampleMode]);
 
   const handleDownloadClick = () => {
     const img_name = stylizedImage.split('/').pop();

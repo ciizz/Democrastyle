@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Col, Spinner, Image } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import APIService from '../Middleware/APIService';
 

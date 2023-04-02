@@ -3,7 +3,6 @@ import { useAuth } from '../Contexts/AuthContext';
 import { Container, Card, Row, Col, Image, Button, Collapse, Spinner, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
 import PremadeStyle from '../Components/PremadeStyle';
 import FileUpload from '../Components/FileUpload';
 import APIService from '../Middleware/APIService';

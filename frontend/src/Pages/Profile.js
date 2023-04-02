@@ -1,12 +1,7 @@
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert, OverlayTrigger, Tooltip, Ratio } from 'react-bootstrap';
-import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
 import { getImageSize } from 'react-image-size';
@@ -16,9 +11,6 @@ import "yet-another-react-lightbox/styles.css";
 
 // import optional lightbox plugins
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
-import Slideshow from "yet-another-react-lightbox/plugins/slideshow";
-import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 function Profile() {
@@ -28,26 +20,20 @@ function Profile() {
 
   const [userId, setUserId] = useState('');
   const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [stylizedImages, setStylizedImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
   const [showProfilePicModal, setShowProfilePicModal] = useState(false);
-
-  const [slides, setSlides] = useState([]);
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
-
   useEffect(() => {
-
     async function fetchUserProfile() {
       if (!currentUser) {
         navigate('/login');
       } else {
         setUserId(currentUser.uid);
         setDisplayName(currentUser.displayName);
-        setEmail(currentUser.email);
         setProfilePicture(currentUser.photoURL);
         setLoading(false);
       }
@@ -158,6 +144,7 @@ function Profile() {
                   overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
                 >
                   <div style={{ padding: "15px 0 0 0", width: "100%", display: "flex", justifyContent: "center" }}>
+                    {/* eslint-disable-next-line */}
                     <a style={{ justifyContent: "center" }} href="#" onClick={() => setShowDisplayNameModal(true)}>
                       <h3 >@{displayName} </h3>
                     </a>
