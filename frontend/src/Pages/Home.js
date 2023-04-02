@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Button, Row, Col } from 'react-bootstrap';
+import { Container, Button, Row, Col, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { countries, continents } from 'countries-list';
 
 import { useAuth } from '../Contexts/AuthContext';
 import APIService from '../Middleware/APIService';
 import Chart from 'chart.js/auto';
+
+import logo from "../assets/democrastyle-logo.png"
 
 function Home() {
   const [requestCount, setRequestCount] = useState(null);
@@ -112,8 +114,13 @@ function Home() {
 
   return (
     <Container className="d-flex flex-column justify-content-center align-items-center">
-      <section className="text-center my-5">
-        <h1 className="text-center mt-5">Democrastyle</h1>
+      <section style={{ textAlign: 'center', padding: "0 0 40px 0" }}>
+        <Image
+          style={{
+            width: "60%", /* Do not scale the image */
+            height: "auto", /* Center the image within the element */
+          }}
+          src={logo} />
       </section>
       <nav>
         <ul className="list-unstyled d-flex justify-content-center">
@@ -124,16 +131,16 @@ function Home() {
             <li className="mx-3"><Button variant="secondary" as={Link} to={"/Login"}>Login</Button></li>}
         </ul>
       </nav>
-      <section className="text-center my-5" style={{ fontStyle: 'italic', color: 'gray' }}>
+      <section className="text-center my-5" >
         <h2>About Us</h2>
         <p className="lead ">We are a group a students from McGill University. Our platform Democrastyle provides image Neural Style Transfer (NST) to its users. The aim is to democratize the use of machine learning tools, making them accessible to everyone, regardless of technical expertise. The platform is designed to provide high-quality style transfer tools for free, by leveraging performant pre-trained NST models. The motivation behind the platform is to contribute to making machine learning tools more accessible for everyday tasks. Additionally, the platform will foster an online community of users and artists.</p>
       </section>
 
-      <section style={{ margin: "0 0 -40px 0", padding: "0", fontStyle: 'italic', color: 'gray', textAlign: 'center', }}>
+      <section style={{ margin: "0 0 -40px 0", padding: "0", textAlign: 'center', }}>
         <Row>
           <section >
             <h2>Requests Summary</h2>
-            <p>Total number of requests Requests: {Object.values(requestCount || {}).reduce((total, count) => total + count, 0)}</p>
+            <p>Total number of images stylized: {Object.values(requestCount || {}).reduce((total, count) => total + count, 0)}</p>
           </section>
         </Row>
         <Row>

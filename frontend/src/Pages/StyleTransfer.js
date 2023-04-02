@@ -207,7 +207,7 @@ function StyleTransfer() {
                 }}
               >
                 <Button variant="primary" size="lg" disabled={isSubmitDisabled}>
-                  Generate Style Transfer
+                  Generate Stylized Image
                 </Button>
               </Link>
             </div>
