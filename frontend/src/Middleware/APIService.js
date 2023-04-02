@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DEMOCRASTYLE_API_URL = 'http://localhost:8080/';
+const DEMOCRASTYLE_API_URL = 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
 
 class APIService {
     

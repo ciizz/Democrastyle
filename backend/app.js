@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+const functions = require('firebase-functions');
 
 
 var indexRouter = require('./routes/index');
@@ -13,9 +14,9 @@ var imageRouter = require('./routes/image-routes');
 
 var app = express();
 
-const port = process.env.PORT || 8080
+// const port = process.env.PORT || 8080;
 
-app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
+// app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -52,4 +53,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+// export express app to functions
+exports.api = functions.https.onRequest(app);
