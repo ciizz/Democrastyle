@@ -8,7 +8,8 @@ import Explore from './Pages/Explore';
 import Profile from './Pages/Profile';
 import NotFound from './Pages/NotFound';
 import Result from './Pages/Result';
-import { Routes, Route} from "react-router-dom";
+import NavBar from './Components/NavBar';
+import { Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./Contexts/AuthContext"; // import this
 
 // TODO: if user is not logged in: only allow Home, Explore and login pages
@@ -16,6 +17,8 @@ import { AuthProvider } from "./Contexts/AuthContext"; // import this
 function App() {
   return (
     <AuthProvider>
+      <NavBar />
+
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/Home" element={<Home />} />
@@ -28,7 +31,7 @@ function App() {
         <Route path="/Result" element={<Result />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </AuthProvider> 
+    </AuthProvider>
   )
 }
 

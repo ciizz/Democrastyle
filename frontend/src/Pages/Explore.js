@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Spinner, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import NavBar from '../Components/NavBar';
 import APIService from '../Middleware/APIService';
 
 import { getImageSize } from 'react-image-size';
 import PhotoAlbum from "react-photo-album";
+
 
 function Explore() {
   let navigate = useNavigate();
@@ -25,7 +25,6 @@ function Explore() {
     async function fetchStylizedImages() {
       try {
         const images = await APIService.getAllStylizedImages();
-        // const sizedImages = images.map(i => { return { ...i, src: i.url, width: 1080, height: 1080, } }); // await Promise.all(images.map(i => fetchImageSize(i)));
         const sizedImages = await Promise.all(images.map(i => fetchImageSize(i)));
         setStylizedImages(sizedImages);
         setLoading(false);
@@ -40,7 +39,6 @@ function Explore() {
   return (
     <>
       <Container>
-        <NavBar />
         <Container className="mt-5 d-flex flex-column align-items-center">
           <h1>Explore Stylized Images</h1>
           <p>Click on an image to visit user profile.</p>

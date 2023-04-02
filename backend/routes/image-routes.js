@@ -6,17 +6,27 @@ const upload = multer();
 const ImageRepository = require('../dao/image-repository');
 
 /* GET all stylized images. */
-router.get('/stylized_images', async function(req, res, next) {
+router.get('/stylized_images', async function (req, res, next) {
     try {
-      const stylizedImages = await ImageRepository.getAllStylizedImages();
-      res.status(200).json(stylizedImages);
+        const stylizedImages = await ImageRepository.getAllStylizedImages();
+        res.status(200).json(stylizedImages);
     } catch (error) {
-      next(error);
+        next(error);
+    }
+});
+
+/* GET request counts. */
+router.get('/request_counts', async function(req, res, next) {
+    try {
+        const requestCounts = await ImageRepository.getRequestCounts();
+        res.status(200).json(requestCounts);
+    } catch (error) {
+        next(error);
     }
 });
 
 /* GET all premade styles. */
-router.get('/premade_styles', async function(req, res, next) {
+router.get('/premade_styles', async function (req, res, next) {
     try {
         const premadeStyles = await ImageRepository.getPremadeStyles();
         res.status(200).json(premadeStyles);
@@ -28,7 +38,7 @@ router.get('/premade_styles', async function(req, res, next) {
 /* POST perform inference. */
 // TODO: either rename each file from the frontend (this way they can have same name, won't matter for us),
 // or send key-value pairs with request indicating which file is which (content or style)
-router.post('/perform_inference', upload.array("images"), async function(req, res, next) {
+router.post('/perform_inference', upload.array("images"), async function (req, res, next) {
     // check if all params are present
     if (!req.body.contentImageName) {
         res.status(400).json({ message: "Missing content image name" });
@@ -45,6 +55,15 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
     } else if (!req.body.user) {
         res.status(400).json({ message: "Missing user" });
         return;
+    }
+
+    let styleImageSize = 512;
+    let sampleMode = "scale";
+    if (req.body.styleImageSize) {
+        styleImageSize = req.body.styleImageSize;
+    }
+    if (req.body.sampleMode) {
+        sampleMode = req.body.sampleMode;
     }
 
     try {
@@ -73,7 +92,7 @@ router.post('/perform_inference', upload.array("images"), async function(req, re
         // await ImageRepository.saveContentImageToDB(contentImageKey, username);
         // await ImageRepository.saveStyleImageToDB(styleImageKey, username);
         console.log("Performing style transfer...");
-        const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey);
+        const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey, styleImageSize, sampleMode);
         const stylizedImageKey = styleRes.data.id;
         const stylizedImageURL = styleRes.data.url;
         // save to db
