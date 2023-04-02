@@ -6,6 +6,8 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useAuth } from '../Contexts/AuthContext';
 import { useNavigate } from 'react-router-dom'; // import useHistory
 
+import logo from "../assets/democrastyle-logo.png"
+
 const NavBar = () => {
 
     const { currentUser } = useAuth();
@@ -29,7 +31,15 @@ const NavBar = () => {
     return (
         <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
             <Container>
-                <Navbar.Brand href="/Home">Democrastyle</Navbar.Brand>
+                <Navbar.Brand href="/Home">
+                    {/* Democrastyle */}
+                    <img
+                        style={{ margin: "-25px 0 0 0", height: "60px" }}
+                        src={logo}
+                        className="d-inline-block align-top"
+                        alt="React Bootstrap logo"
+                    />
+                </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
