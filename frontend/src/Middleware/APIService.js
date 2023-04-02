@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const DEMOCRASTYLE_API_URL = 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
-
+// const DEMOCRASTYLE_API_URL = "http://localhost:8080/";
+const DEMOCRASTYLE_API_URL = "https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/";
 class APIService {
 
     static async performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user, styleImageSize, sampleMode) {
@@ -56,6 +56,7 @@ class APIService {
     }
 
     static async getStylizedImagesByUser(username) {
+        console.log(DEMOCRASTYLE_API_URL);
         const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + username + '/stylized_images');
         return response.data;
     }

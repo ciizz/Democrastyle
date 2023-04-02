@@ -14,7 +14,7 @@ var imageRouter = require('./routes/image-routes');
 
 var app = express();
 
-// const port = process.env.PORT || 8080;
+// const port = 8080;
 
 // app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 
