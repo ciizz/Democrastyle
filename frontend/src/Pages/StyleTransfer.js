@@ -11,10 +11,8 @@ import APIService from '../Middleware/APIService';
 function StyleTransfer() {
   const { currentUser } = useAuth();
   const [contentImage, setContentImage] = useState(null);
-  const [contentImageName, setContentImageName] = useState(null);
   const [contentImageURL, setContentImageURL] = useState(null);
   const [styleImage, setStyleImage] = useState(null);
-  const [styleImageName, setStyleImageName] = useState(null);
   const [styleImageURL, setStyleImageURL] = useState(null);
   const [sampleMode, setSampleMode] = useState("scale");
   const [premadeStyles, setPremadeStyles] = useState([]);
@@ -39,20 +37,16 @@ function StyleTransfer() {
 
   const handleContentImageUpload = (event) => {
     const file = event.target.files[0];
-    const name = file.name;
     if (file) {
       setContentImage(file);
-      setContentImageName(name);
       setContentImageURL(URL.createObjectURL(file));
     }
   };
 
   const handleStyleImageUpload = (event) => {
     const file = event.target.files[0];
-    const name = file.name;
     if (file) {
       setStyleImage(file);
-      setStyleImageName(name);
       setStyleImageURL(URL.createObjectURL(file));
     }
   };
@@ -60,7 +54,6 @@ function StyleTransfer() {
   const handlePremadeStyleClick = async (styleIdx) => {
     setSelectedStyleIdx(styleIdx);
     const style = premadeStyles[styleIdx];
-    setStyleImageName(style.filename);
     setStyleImageURL(style.url);
     const response = await fetch(style.url);
     const blob = await response.blob();
@@ -198,8 +191,6 @@ function StyleTransfer() {
                 state={{
                   contentImage: contentImage,
                   styleImage: styleImage,
-                  contentImageName: contentImageName,
-                  syleImageName: styleImageName,
                   styleImageSize: 512,
                   sampleMode: sampleMode,
                   user: currentUser.uid,

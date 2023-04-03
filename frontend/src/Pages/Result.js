@@ -22,7 +22,8 @@ function Result() {
   useEffect(() => {
     async function performStyleTransfer() {
       try {
-        let res = await APIService.performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user, styleImageSize, sampleMode);
+        let res = await APIService.performStyleTransfer(contentImage, styleImage, user, styleImageSize, sampleMode);
+        console.log(res);
         setStylizedImage(res.imageURL);
 
         let res1 = await APIService.getImageData(res.imageURL);

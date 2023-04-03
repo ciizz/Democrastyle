@@ -8,7 +8,8 @@ const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/stor
 exports.uploadProfilePicture= async (file, user) => {
     const imageRef = storage_ref(storage, 'profilePictures/' + user);
     try {
-        await uploadBytes(imageRef, file.buffer);
+        // await uploadBytes(imageRef, file.buffer);
+        await uploadBytes(imageRef, file);
         console.log('Uploaded file to firebase');
         const url = await getDownloadURL(imageRef);
         return url;

@@ -68,7 +68,7 @@ exports.uploadContentImageToS3 = async (contentImage) => {
         params: {
             Bucket: process.env.AWS_S3_CONTENT_BUCKET_NAME,
             Key: contentFileKey,
-            Body: contentImage.buffer,
+            Body: contentImage,
         }
     }).done();
 
@@ -89,7 +89,7 @@ exports.uploadStyleImageToS3 = async (styleImage) => {
         params: {
             Bucket: process.env.AWS_S3_STYLE_BUCKET_NAME,
             Key: styleFileKey,
-            Body: styleImage.buffer,
+            Body: styleImage,
         }
     }).done();
 
@@ -159,8 +159,12 @@ exports.performStyleTransfer = async (contentImageKey, styleImageKey, styleImage
         }
     }
 
-    const styleRes = await axios.post(process.env.STYLE_TRANSFER_API_URL, styleReqBody);
-    return styleRes;
+    try { 
+        const styleRes = await axios.post(process.env.STYLE_TRANSFER_API_URL, styleReqBody);
+        return styleRes;
+    } catch (error) {
+        console.log(error.response.data);
+    }
 }
 
 
