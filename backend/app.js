@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'dev') {
 } else {
   app.use(
     cors({
-      origin: 'https://democrastyle-a73d2.web.app',
+      origin: ['https://democrastyle-a73d2.web.app', 'https://democrastyle.art'],
     })
   );
 }
@@ -47,12 +47,12 @@ app.use('/users', userRouter);
 app.use('/images', imageRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
