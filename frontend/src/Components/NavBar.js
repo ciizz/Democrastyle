@@ -4,9 +4,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useAuth } from '../Contexts/AuthContext';
-import { useNavigate } from 'react-router-dom'; // import useHistory
+import { NavLink, useNavigate } from 'react-router-dom'; // import useHistory
 
 import logo from "../assets/democrastyle-logo.png"
+import { NavItem } from 'react-bootstrap';
 
 const NavBar = () => {
 
@@ -43,15 +44,24 @@ const NavBar = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="/Explore">Explore</Nav.Link>
-                        <Nav.Link href="/StyleTransfer">Style Transfer</Nav.Link>
+                        <NavItem>
+                            <NavLink exact to="/Explore" className="nav-link" activeClassName="active">Explore</NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink exact to="/StyleTransfer" className="nav-link" activeClassName="active">Style Transfer</NavLink>
+                        </NavItem>
                         {currentUser ?
                             <NavDropdown title="Profile" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/Profile">Visit My Profile</NavDropdown.Item>
+                                {/* <NavDropdown.Item href="/Profile">Visit My Profile</NavDropdown.Item> */}
+                                <NavItem>
+                                    <NavLink exact to="/Profile" className="nav-link" activeClassName="active">Visit My Profile</NavLink>
+                                </NavItem>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout}>Sign out</NavDropdown.Item>
                             </NavDropdown> :
-                            <Nav.Link href="/Login">Login</Nav.Link>}
+                            <NavItem>
+                                <NavLink exact to="/Login" className="nav-link" activeClassName="active">Login</NavLink>
+                            </NavItem>}
                     </Nav>
                 </Navbar.Collapse>
             </Container>
