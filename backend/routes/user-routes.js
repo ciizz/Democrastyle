@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const UserRepository = require('../dao/user-repository');
-const multer = require("multer");
-const upload = multer();
+// const multer = require("multer");
+// const upload = multer();
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+const Busboy = require('busboy');
+
 
 /* GET user by username. */
 router.get('/:username', async function(req, res, next) {
@@ -26,13 +31,45 @@ router.get('/:username/stylized_images', async function(req, res, next) {
   }
 });
 
+// /* POST upload user profile picture. */
+// router.post('/:username/upload_profile_picture', upload.single("file"), async function(req, res, next) {
+//   try {
+//       const profilePicture = await UserRepository.uploadProfilePicture(req.file, req.params.username);
+//       if (profilePicture == null) {
+//           res.status(400).json({ message: "Image upload failed" });
+//       } else {
+//           res.status(200).json({ message: "Image uploaded successfully", profilePicture: profilePicture });
+//       }
+//       res.status(200).json({ message: "Image uploaded successfully", profilePicture: profilePicture });
+//   } catch (error) {
+//       next(error);
+//   }
+// });
+
 /* POST upload user profile picture. */
-router.post('/:username/upload_profile_picture', upload.single("file"), async function(req, res, next) {
+router.post('/:username/upload_profile_picture', async function(req, res, next) {
   try {
-      const profilePicture = await UserRepository.uploadProfilePicture(req.file, req.params.username);
-      res.status(200).json({ message: "Image uploaded successfully", profilePicture: profilePicture });
+
+    const bb = Busboy({ headers: req.headers });
+    let fileData = null;
+    let fileBlob = null;
+    bb.on('file', function (fieldname, file, filename, encoding, mimetype) {
+      const filepath = path.join(os.tmpdir(), filename.filename);
+      fileData = { filePath: filepath, type: mimetype };
+      file.pipe(fs.createWriteStream(filepath));
+    });
+    bb.on('finish', async () => {
+      const profilePicture = await UserRepository.uploadProfilePicture(fileData.filePath, req.params.username);
+      if (profilePicture == null) {
+        res.status(400).json({ message: "Image upload failed" });
+      } else {
+        res.status(200).json({ message: "Image uploaded successfully", profilePicture: profilePicture });
+      }
+      fs.unlinkSync(fileData.file);
+    });
+    req.pipe(bb);
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
 
