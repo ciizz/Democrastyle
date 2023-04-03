@@ -1,16 +1,15 @@
 const { auth, db, storage } = require('../config/firebase');
 const { ref, set, get } = require("firebase/database");
 const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/storage");
-// const fs = require('fs');
 
 /** 
  * @param {string} filename
  **/
 exports.uploadProfilePicture= async (file, user) => {
-    // const file = fs.readFileSync(filePath);
     const imageRef = storage_ref(storage, 'profilePictures/' + user);
     try {
-        await uploadBytes(imageRef, file.buffer);
+        // await uploadBytes(imageRef, file.buffer);
+        await uploadBytes(imageRef, file);
         console.log('Uploaded file to firebase');
         const url = await getDownloadURL(imageRef);
         return url;
