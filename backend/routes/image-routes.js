@@ -93,6 +93,13 @@ router.post('/perform_inference', async function (req, res, next) {
         busboy.on('finish', async () => {
             await Promise.all(fileWrites);
 
+            if (!uploads['contentImage']) {
+                res.status(400).json({ message: "Content image not uploaded" });
+                return;
+            } else if (!uploads['styleImage']) {
+                res.status(400).json({ message: "Style image not uploaded" });
+                return;
+            }
             const contentImage = fs.readFileSync(uploads['contentImage']);
             const styleImage = fs.readFileSync(uploads['styleImage']);
             const username = fields.user;

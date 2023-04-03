@@ -1,15 +1,14 @@
 import axios from 'axios';
 
 const DEMOCRASTYLE_API_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/' : 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
+// const DEMOCRASTYLE_API_URL = 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/';
 
 class APIService {
 
-    static async performStyleTransfer(contentImage, styleImage, contentImageName, styleImageName, user, styleImageSize, sampleMode) {
+    static async performStyleTransfer(contentImage, styleImage, user, styleImageSize, sampleMode) {
         const formData = new FormData();
-        formData.append('images', contentImage);
-        formData.append('images', styleImage);
-        formData.append('contentImageName', contentImageName);
-        formData.append('styleImageName', styleImageName);
+        formData.append('contentImage', contentImage);
+        formData.append('styleImage', styleImage);
         formData.append('user', user);
         formData.append('styleImageSize', styleImageSize);
         formData.append('sampleMode', sampleMode);
@@ -18,8 +17,12 @@ class APIService {
                 'Content-Type': 'multipart/form-data'
             }
         };
-        const response = await axios.post(DEMOCRASTYLE_API_URL + 'images/perform_inference', formData, config);
-        return response.data;
+        try {
+            const response = await axios.post(DEMOCRASTYLE_API_URL + 'images/perform_inference', formData, config);
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     static async getUserProfilePic(username) {
