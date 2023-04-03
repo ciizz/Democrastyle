@@ -4,6 +4,10 @@ const { Blob } = require("buffer");
 const multer = require("multer");
 const upload = multer();
 const ImageRepository = require('../dao/image-repository');
+const Busboy = require('busboy');
+const os = require('os');
+const path = require('path');
+const fs = require('fs');
 
 /* GET all stylized images. */
 router.get('/stylized_images', async function (req, res, next) {
@@ -36,72 +40,104 @@ router.get('/premade_styles', async function (req, res, next) {
 });
 
 /* POST perform inference. */
-// TODO: either rename each file from the frontend (this way they can have same name, won't matter for us),
-// or send key-value pairs with request indicating which file is which (content or style)
-router.post('/perform_inference', upload.array("images"), async function (req, res, next) {
-    // check if all params are present
-    if (!req.body.contentImageName) {
-        res.status(400).json({ message: "Missing content image name" });
-        return;
-    } else if (!req.body.styleImageName) {
-        res.status(400).json({ message: "Missing style image name" });
-        return;
-    } else if (!req.files) {
-        res.status(400).json({ message: "Missing images" });
-        return;
-    } else if (req.files.length != 2) {
-        res.status(400).json({ message: "Incorrect number of images" });
-        return;
-    } else if (!req.body.user) {
-        res.status(400).json({ message: "Missing user" });
-        return;
-    }
-
-    let styleImageSize = 512;
-    let sampleMode = "scale";
-    if (req.body.styleImageSize) {
-        styleImageSize = req.body.styleImageSize;
-    }
-    if (req.body.sampleMode) {
-        sampleMode = req.body.sampleMode;
-    }
-
+router.post('/perform_inference', async function (req, res, next) {
     try {
-        const files = req.files;
-        const contentImageFileName = req.body.contentImageName;
-        var contentUploadRes = null;
-        var styleUploadRes = null;
-        console.log("Uploading images...");
-        if (files[0].originalname == contentImageFileName) {
-            contentUploadRes = await ImageRepository.uploadContentImageToS3(files[0]);
-            styleUploadRes = await ImageRepository.uploadStyleImageToS3(files[1]);
-        } else {
-            contentUploadRes = await ImageRepository.uploadContentImageToS3(files[1]);
-            styleUploadRes = await ImageRepository.uploadStyleImageToS3(files[0]);
-        }
+        const busboy = Busboy({headers: req.headers});
+        const tmpdir = os.tmpdir();
 
-        if (!contentUploadRes || !styleUploadRes) {
-            res.status(500).json({ message: "Image upload failed" });
-            return;
-        }
-        console.log("Images uploaded successfully");
+        // This object will accumulate all the fields, keyed by their name
+        const fields = {};
 
-        const contentImageKey = contentUploadRes.Key;
-        const styleImageKey = styleUploadRes.Key;
-        const username = req.body.user;
-        // await ImageRepository.saveContentImageToDB(contentImageKey, username);
-        // await ImageRepository.saveStyleImageToDB(styleImageKey, username);
-        console.log("Performing style transfer...");
-        const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey, styleImageSize, sampleMode);
-        const stylizedImageKey = styleRes.data.id;
-        const stylizedImageURL = styleRes.data.url;
-        // save to db
-        await ImageRepository.saveStylizedImageToDB(stylizedImageKey, stylizedImageURL, username, contentImageKey, styleImageKey);
-        await ImageRepository.trackRequestLocation(req);
-        res.status(200).json({
-            message: "Style transfer successful",
-            imageURL: stylizedImageURL
+        // This object will accumulate all the uploaded files, keyed by their name.
+        const uploads = {};
+
+        // This code will process each non-file field in the form.
+        busboy.on('field', (fieldname, val) => {
+            /**
+             *  TODO(developer): Process submitted field values here
+             */
+            console.log(`Processed field ${fieldname}: ${val}.`);
+            fields[fieldname] = val;
         });
+
+        const fileWrites = [];
+
+        // This code will process each file uploaded.
+        busboy.on('file', (fieldname, file, {filename}) => {
+            // Note: os.tmpdir() points to an in-memory file system on GCF
+            // Thus, any files in it must fit in the instance's memory.
+            console.log(`Processed file ${filename}`);
+            const filepath = path.join(tmpdir, filename);
+            uploads[fieldname] = filepath;
+
+            const writeStream = fs.createWriteStream(filepath);
+            file.pipe(writeStream);
+
+            // File was processed by Busboy; wait for it to be written.
+            // Note: GCF may not persist saved files across invocations.
+            // Persistent files must be kept in other locations
+            // (such as Cloud Storage buckets).
+            const promise = new Promise((resolve, reject) => {
+            file.on('end', () => {
+                writeStream.end();
+            });
+            writeStream.on('close', resolve);
+            writeStream.on('error', reject);
+            });
+            fileWrites.push(promise);
+        });
+
+
+        // Triggered once all uploaded files are processed by Busboy.
+        // We still need to wait for the disk writes (saves) to complete.
+        busboy.on('finish', async () => {
+            await Promise.all(fileWrites);
+
+            const contentImage = fs.readFileSync(uploads['contentImage']);
+            const styleImage = fs.readFileSync(uploads['styleImage']);
+            const username = fields.user;
+
+            if (!contentImage) {
+                res.status(400).json({ message: "Missing content image" });
+                return;
+            } else if (!styleImage) {
+                res.status(400).json({ message: "Missing style image" });
+                return;
+            } else if (!username) {
+                res.status(400).json({ message: "Missing user" });
+                return;
+            }
+
+            // default values
+            let styleImageSize = 512;
+            let sampleMode = "scale";
+            if (fields.styleImageSize) {
+                styleImageSize = fields.styleImageSize;
+            }
+            if (fields.sampleMode) {
+                sampleMode = fields.sampleMode;
+            }
+
+            const contentUploadRes = await ImageRepository.uploadContentImageToS3(contentImage);
+            const styleUploadRes = await ImageRepository.uploadStyleImageToS3(styleImage);
+
+            const contentImageKey = contentUploadRes.Key;
+            const styleImageKey = styleUploadRes.Key;
+
+            console.log("Performing style transfer...");
+            const styleRes = await ImageRepository.performStyleTransfer(contentImageKey, styleImageKey, styleImageSize, sampleMode);
+            const stylizedImageKey = styleRes.data.id;
+            const stylizedImageURL = styleRes.data.url;
+            // save to db
+            await ImageRepository.saveStylizedImageToDB(stylizedImageKey, stylizedImageURL, username, contentImageKey, styleImageKey);
+            await ImageRepository.trackRequestLocation(req);
+            res.status(200).json({
+                message: "Style transfer successful",
+                imageURL: stylizedImageURL
+            });
+        });
+
+        busboy.end(req.rawBody);
     } catch (error) {
         next(error);
     }

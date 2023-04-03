@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const DEMOCRASTYLE_API_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
+const DEMOCRASTYLE_API_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/' : 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
 
 class APIService {
 
