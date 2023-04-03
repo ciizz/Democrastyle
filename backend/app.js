@@ -19,6 +19,17 @@ if (process.env.NODE_ENV === 'dev') {
   app.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);
   });
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+    })
+  );
+} else {
+  app.use(
+    cors({
+      origin: 'https://democrastyle-a73d2.web.app',
+    })
+  );
 }
 
 // view engine setup
@@ -30,11 +41,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-  cors({
-    origin: 'http://localhost:3000',
-  })
-);
 
 app.use('/', indexRouter);
 app.use('/users', userRouter);
