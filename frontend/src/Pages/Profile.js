@@ -23,6 +23,7 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState('');
   const [stylizedImages, setStylizedImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingImages, setLoadingImages] = useState(true);
   const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
   const [showProfilePicModal, setShowProfilePicModal] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(-1);
@@ -60,6 +61,7 @@ function Profile() {
 
     fetchUserProfile();
     fetchStylizedImages();
+    setLoadingImages(false);
   }, [currentUser, userId, navigate]);
 
   const handleUpdateDisplayName = async () => {
@@ -190,34 +192,45 @@ function Profile() {
           </Container>
         )}
       </Container>
-      <>
-        <h2>Stylized Images</h2>
-        {stylizedImages?.length > 0
-          ? <>
-            <PhotoAlbum
-              photos={stylizedImages}
-              layout="columns"
-              // columns={3}
-              columns={(containerWidth) => {
-                if (containerWidth < 400) return 1;
-                if (containerWidth < 800) return 2;
-                if (containerWidth < 1400) return 3;
-                return 4;
-              }}
-              onClick={({ index }) => setLightboxIndex(index)}
-            />
-            <Lightbox
-              slides={stylizedImages}
-              open={lightboxIndex >= 0}
-              index={lightboxIndex}
-              close={() => setLightboxIndex(-1)}
-              // enable optional lightbox plugins
-              plugins={[Fullscreen]}
-            />
-          </>
-          : <p>No stylized images found.</p>
-        }
-      </>
+      {!loading && currentUser &&
+        <>
+          <h2>Stylized Images</h2>
+          {loadingImages &&
+            <>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </>
+          }
+          {!loadingImages && stylizedImages?.length > 0 &&
+            <>
+              <PhotoAlbum
+                photos={stylizedImages}
+                layout="columns"
+                // columns={3}
+                columns={(containerWidth) => {
+                  if (containerWidth < 400) return 1;
+                  if (containerWidth < 800) return 2;
+                  if (containerWidth < 1400) return 3;
+                  return 4;
+                }}
+                onClick={({ index }) => setLightboxIndex(index)}
+              />
+              <Lightbox
+                slides={stylizedImages}
+                open={lightboxIndex >= 0}
+                index={lightboxIndex}
+                close={() => setLightboxIndex(-1)}
+                // enable optional lightbox plugins
+                plugins={[Fullscreen]}
+              />
+            </>
+          }
+          {!loadingImages && stylizedImages?.length === 0 &&
+            <p>No stylized images found.</p>
+          }
+        </>
+      }
 
     </Container >
   );
