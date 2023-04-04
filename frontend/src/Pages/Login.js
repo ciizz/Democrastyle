@@ -25,7 +25,7 @@ function Login() {
         try {
             setLoading(true);
             await login(email, password);
-            navigate("/Profile");
+            navigate("/profile");
         } catch (e) {
             alert("Email/Password is incorrect");
         }

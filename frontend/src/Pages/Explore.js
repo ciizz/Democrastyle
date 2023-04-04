@@ -65,7 +65,7 @@ function Explore() {
             if (containerWidth < 1400) return 3;
             return 4;
           }}
-          onClick={({ photo }) => navigate(`/Profile/${photo.user}`)}
+          onClick={({ photo }) => navigate(`/profile/${photo.user}`)}
         />
       </Container>
     </>

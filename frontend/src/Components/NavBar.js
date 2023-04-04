@@ -22,7 +22,7 @@ const NavBar = () => {
         if (confirmed) {
             try {
                 await logout();
-                navigate('/Login'); // redirect to Home page on successful logout
+                navigate('/login'); // redirect to Home page on successful logout
             } catch (error) {
                 console.log(error.message);
             }
@@ -33,6 +33,7 @@ const NavBar = () => {
         <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
             <Container>
                 {/* <Navbar.Brand href="/Home"> */}
+                {/* <Navbar.Brand href="/"> */}
                     {/* Democrastyle */}
                     {/* <img
                         style={{ margin: "-25px 0 0 0", height: "60px" }}
@@ -55,22 +56,21 @@ const NavBar = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <NavItem>
-                            <NavLink exact to="/Explore" className="nav-link" activeClassName="active">Explore</NavLink>
+                            <NavLink exact to="/explore" className="nav-link" activeClassName="active">Explore</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink exact to="/StyleTransfer" className="nav-link" activeClassName="active">Style Transfer</NavLink>
+                            <NavLink exact to="/style-transfer" className="nav-link" activeClassName="active">Style Transfer</NavLink>
                         </NavItem>
                         {currentUser ?
                             <NavDropdown title="Profile" id="basic-nav-dropdown">
-                                {/* <NavDropdown.Item href="/Profile">Visit My Profile</NavDropdown.Item> */}
                                 <NavItem>
-                                    <NavLink exact to="/Profile" className="nav-link" activeClassName="active">Visit My Profile</NavLink>
+                                    <NavLink exact to="/profile" className="nav-link" activeClassName="active">Visit My Profile</NavLink>
                                 </NavItem>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={handleLogout}>Sign out</NavDropdown.Item>
                             </NavDropdown> :
                             <NavItem>
-                                <NavLink exact to="/Login" className="nav-link" activeClassName="active">Login</NavLink>
+                                <NavLink exact to="/login" className="nav-link" activeClassName="active">Login</NavLink>
                             </NavItem>}
                     </Nav>
                 </Navbar.Collapse>

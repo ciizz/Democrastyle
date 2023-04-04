@@ -24,15 +24,17 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState('');
   const [stylizedImages, setStylizedImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingImages, setLoadingImages] = useState(true);
   const [showDisplayNameModal, setShowDisplayNameModal] = useState(false);
   const [showProfilePicModal, setShowProfilePicModal] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(-1);
 
   useEffect(() => {
     async function fetchUserProfile() {
+      console.log(path)
       if (!currentUser) {
         navigate('/login');
-      } else if (path === '/Profile') {
+      } else if (path === '/profile' || path === '/Profile/') {
         setUserId(currentUser.uid);
         setDisplayName(currentUser.displayName);
         setProfilePicture(currentUser.photoURL);
@@ -69,8 +71,9 @@ function Profile() {
 
     fetchUserProfile();
     fetchStylizedImages();
+    setLoadingImages(false);
   }, [currentUser, userId, path, retrieveUser, navigate]);
-
+    
   const handleUpdateDisplayName = async () => {
     try {
       // check if displayName changed
@@ -114,7 +117,7 @@ function Profile() {
     }
   };
   
-  if (path === '/Profile') {
+  if (path === '/profile' || path === '/Profile/') {
     return (
       <Container>
         <Container className="d-flex flex-column align-items-center">
@@ -202,36 +205,47 @@ function Profile() {
             </Container>
           )}
         </Container>
-        <>
-          <h2>Stylized Images</h2>
-          {stylizedImages?.length > 0
-            ? <>
-              <PhotoAlbum
-                photos={stylizedImages}
-                layout="columns"
-                // columns={3}
-                columns={(containerWidth) => {
-                  if (containerWidth < 400) return 1;
-                  if (containerWidth < 800) return 2;
-                  if (containerWidth < 1400) return 3;
-                  return 4;
-                }}
-                onClick={({ index }) => setLightboxIndex(index)}
-              />
-              <Lightbox
-                slides={stylizedImages}
-                open={lightboxIndex >= 0}
-                index={lightboxIndex}
-                close={() => setLightboxIndex(-1)}
-                // enable optional lightbox plugins
-                plugins={[Fullscreen]}
-              />
-            </>
-            : <p>No stylized images found.</p>
-          }
-        </>
-      </Container >
-    );
+        {!loading && currentUser &&
+          <>
+            <h2>Stylized Images</h2>
+            {loadingImages &&
+              <>
+                <Spinner animation="border" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </>
+            }
+            {!loadingImages && stylizedImages?.length > 0 &&
+              <>
+                <PhotoAlbum
+                  photos={stylizedImages}
+                  layout="columns"
+                  // columns={3}
+                  columns={(containerWidth) => {
+                    if (containerWidth < 400) return 1;
+                    if (containerWidth < 800) return 2;
+                    if (containerWidth < 1400) return 3;
+                    return 4;
+                  }}
+                  onClick={({ index }) => setLightboxIndex(index)}
+                />
+                <Lightbox
+                  slides={stylizedImages}
+                  open={lightboxIndex >= 0}
+                  index={lightboxIndex}
+                  close={() => setLightboxIndex(-1)}
+                  // enable optional lightbox plugins
+                  plugins={[Fullscreen]}
+                />
+              </>
+            }
+            {!loadingImages && stylizedImages?.length === 0 &&
+              <p>No stylized images found.</p>
+            }
+          </>
+        }
+        </Container >
+      );
   } else {
     return (
       <Container>
@@ -267,37 +281,6 @@ function Profile() {
                     </div>
                 </Col>
               </Row>
-              {/* <Modal show={showDisplayNameModal} onHide={() => { setShowDisplayNameModal(false); handleCancel() }}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit Display Name</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <p>Update your profile information.</p>
-                    <Form.Group controlId="formBasicFirstName">
-                      <Form.Label>Display Name</Form.Label>
-                      <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-                    </Form.Group>
-                    <div className="d-flex justify-content-center">
-                      <Button variant="primary" className="mt-2" onClick={handleUpdateDisplayName}>
-                        Save
-                      </Button>
-                    </div>
-                  </Form>
-                </Modal.Body>
-              </Modal>
-              <Modal show={showProfilePicModal} onHide={() => { setShowProfilePicModal(false); handleCancel() }}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Edit Profile Picture</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form>
-                    <Form.Group controlId="formBasicProfilePicture">
-                      <FileUpload onChange={handleProfileImageUpload} />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-              </Modal> */}
             </Container>
           ) : (
             <Container className="mt-5 d-flex flex-column align-items-center">
@@ -305,10 +288,18 @@ function Profile() {
             </Container>
           )}
         </Container>
+      {!loading && currentUser &&
         <>
           <h2>Stylized Images</h2>
-          {stylizedImages?.length > 0
-            ? <>
+          {loadingImages &&
+            <>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </>
+          }
+          {!loadingImages && stylizedImages?.length > 0 &&
+            <>
               <PhotoAlbum
                 photos={stylizedImages}
                 layout="columns"
@@ -330,10 +321,13 @@ function Profile() {
                 plugins={[Fullscreen]}
               />
             </>
-            : <p>No stylized images found.</p>
+          }
+          {!loadingImages && stylizedImages?.length === 0 &&
+            <p>No stylized images found.</p>
           }
         </>
-      </Container >                     
+      }
+      </Container >
       );
     }
 }

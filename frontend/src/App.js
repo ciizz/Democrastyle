@@ -18,18 +18,37 @@ function App() {
   return (
     <AuthProvider>
       <NavBar />
-
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/Home" element={<Home />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Logout" element={<Logout modal={true} setModal={null} />} />
-        <Route path="/StyleTransfer" element={<StyleTransfer />} />
-        <Route path="/Explore" element={<Explore />} />
-        <Route path="/Profile" element={<Profile />} />
-        <Route path="/Profile/*" element={<Profile />} />
-        <Route path="/Result" element={<Result />} />
+
+        {["/", "/Home", "/home"].map(path => (
+          <Route key="home" path={path} element={<Home />} />
+        ))}
+        {["/Register", "/register"].map(path => (
+          <Route path={path} element={<Register />} />
+        ))}
+        {["/Login", "/login"].map(path => (
+          <Route path={path} element={<Login />} />
+
+        ))}
+        {["/Logout", "/logout"].map(path => (
+          <Route path={path} element={<Logout modal={true} setModal={null} />} />
+
+        ))}
+        {["/StyleTransfer", "/style-transfer"].map(path => (
+          <Route path={path} element={<StyleTransfer />} />
+
+        ))}
+        {["/Explore", "/explore"].map(path => (
+          <Route path={path} element={<Explore />} />
+
+        ))}
+        {["/Profile", "/profile", "/profile/*"].map(path => (
+          <Route path={path} element={<Profile />} />
+
+        ))}
+        {["/Result", "/result"].map(path => (
+          <Route path={path} element={<Result />} />
+        ))}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </AuthProvider>

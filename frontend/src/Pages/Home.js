@@ -124,11 +124,11 @@ function Home() {
       </section>
       <nav>
         <ul className="list-unstyled d-flex justify-content-center">
-          <li className="mx-3"><Button variant="primary" as={Link} to={"/StyleTransfer"}>Style Transfer</Button></li>
-          <li className="mx-3"><Button variant="secondary" as={Link} to={"/Explore"}>Explore</Button></li>
+          <li className="mx-3"><Button variant="primary" as={Link} to={"/style-transfer"}>Style Transfer</Button></li>
+          <li className="mx-3"><Button variant="secondary" as={Link} to={"/explore"}>Explore</Button></li>
           {currentUser ?
-            <li className="mx-3"><Button variant="secondary" as={Link} to={"/Profile"}>Profile</Button></li> :
-            <li className="mx-3"><Button variant="secondary" as={Link} to={"/Login"}>Login</Button></li>}
+            <li className="mx-3"><Button variant="secondary" as={Link} to={"/profile"}>Profile</Button></li> :
+            <li className="mx-3"><Button variant="secondary" as={Link} to={"/login"}>Login</Button></li>}
         </ul>
       </nav>
       <section className="text-center my-5" >

@@ -187,7 +187,7 @@ function StyleTransfer() {
               style={{ pointerEvents: isSubmitDisabled ? 'none' : 'auto' }}
             >
               <Link
-                to="/Result"
+                to="/result"
                 state={{
                   contentImage: contentImage,
                   styleImage: styleImage,
