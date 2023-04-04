@@ -31,7 +31,7 @@ function Register() {
         try {
             setLoading(true);
             await register(email, password, displayName);
-            navigate("/Profile");
+            navigate("/profile");
         } catch (e) {
             alert("Failed to register");
         }

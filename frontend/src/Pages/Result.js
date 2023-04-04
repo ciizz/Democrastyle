@@ -77,7 +77,7 @@ function Result() {
       {stylizedImage && (
         <Container className="mt-5 d-flex flex-column align-items-center">
           <Button variant="primary" className="mt-3" onClick={handleDownloadClick}>Download</Button>
-          <Button variant="primary" className="mt-3" onClick={() => navigate("/StyleTransfer")}>Stylize Another Image</Button>
+          <Button variant="primary" className="mt-3" onClick={() => navigate("/style-transfer")}>Stylize Another Image</Button>
         </Container>
       )}
     </Container>
