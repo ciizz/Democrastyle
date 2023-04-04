@@ -32,15 +32,25 @@ const NavBar = () => {
     return (
         <Navbar bg="light" expand="lg" style={{ marginBottom: '20px' }}>
             <Container>
-                <Navbar.Brand href="/Home">
+                {/* <Navbar.Brand href="/Home"> */}
                     {/* Democrastyle */}
-                    <img
+                    {/* <img
                         style={{ margin: "-25px 0 0 0", height: "60px" }}
                         src={logo}
                         className="d-inline-block align-top"
                         alt="React Bootstrap logo"
-                    />
-                </Navbar.Brand>
+                    /> */}
+                {/* </Navbar.Brand> */}
+                <NavItem>
+                    <NavLink exact to="/Home" className="nav-link" activeClassName="active">
+                        <img
+                            style={{ margin: "-25px 0 0 0", height: "60px" }}
+                            src={logo}
+                            className="d-inline-block align-top"
+                            alt="React Bootstrap logo"
+                        />
+                    </NavLink>
+                </NavItem>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

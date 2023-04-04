@@ -21,13 +21,13 @@ if (process.env.NODE_ENV === 'dev') {
   });
   app.use(
     cors({
-      origin: ['http://localhost:3000', 'http://127.0.0.1:5002'],
+      origin: ['http://localhost:3000', 'http://127.0.0.1:5000'],
     })
   );
 } else {
   app.use(
     cors({
-      origin: ['https://democrastyle-a73d2.web.app', 'https://democrastyle.art', 'http://127.0.0.1:5002'],
+      origin: ['https://democrastyle-a73d2.web.app', 'https://democrastyle.art', 'http://127.0.0.1:5000'],
     })
   );
 }

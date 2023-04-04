@@ -8,6 +8,17 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 
+/* GET user by id. */
+router.get('/:id', async function(req, res, next) {
+  try {
+    const id = req.params.id;
+    const user = await UserRepository.getUserById(id);
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /* GET user by username. */
 router.get('/:username', async function(req, res, next) {
   try {

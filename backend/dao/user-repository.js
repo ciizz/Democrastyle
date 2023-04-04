@@ -2,6 +2,16 @@ const { auth, db, storage } = require('../config/firebase');
 const { ref, set, get } = require("firebase/database");
 const { ref: storage_ref, uploadBytes, getDownloadURL } = require("firebase/storage");
 
+
+/**
+ * 
+ * @param {*} id 
+ * @returns 
+ */
+exports.getUserById = async (id) => {
+    return auth.getUser(id);
+}
+
 /** 
  * @param {string} filename
  **/

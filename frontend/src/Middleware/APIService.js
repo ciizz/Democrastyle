@@ -1,9 +1,18 @@
 import axios from 'axios';
 
-const DEMOCRASTYLE_API_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/' : 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
-// const DEMOCRASTYLE_API_URL = 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/';
+// const DEMOCRASTYLE_API_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/' : 'https://us-central1-democrastyle-a73d2.cloudfunctions.net/api/';
+const DEMOCRASTYLE_API_URL = 'http://127.0.0.1:5001/democrastyle-a73d2/us-central1/api/';
 
 class APIService {
+
+    static async getUserById(userId) {
+        try {
+            const response = await axios.get(DEMOCRASTYLE_API_URL + 'users/' + userId);
+            return response.data;
+    } catch (error) {
+            console.error(error);
+        }
+    }
 
     static async performStyleTransfer(contentImage, styleImage, user, styleImageSize, sampleMode) {
         const formData = new FormData();

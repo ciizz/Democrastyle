@@ -28,6 +28,7 @@ function App() {
         <Route path="/StyleTransfer" element={<StyleTransfer />} />
         <Route path="/Explore" element={<Explore />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/Profile/*" element={<Profile />} />
         <Route path="/Result" element={<Result />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

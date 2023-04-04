@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../Contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Container, Row, Col, Spinner, Image, Button, Modal, Form, Alert, OverlayTrigger, Tooltip, Ratio } from 'react-bootstrap';
 import APIService from '../Middleware/APIService';
 import FileUpload from '../Components/FileUpload';
@@ -15,8 +15,9 @@ import "yet-another-react-lightbox/plugins/thumbnails.css";
 
 function Profile() {
   const navigate = useNavigate();
-
-  const { currentUser, updateDisplayName, updateProfilePicture } = useAuth();
+  const { currentUser, updateDisplayName, updateProfilePicture, retrieveUser } = useAuth();
+  const location = useLocation();
+  const path = location.pathname;
 
   const [userId, setUserId] = useState('');
   const [displayName, setDisplayName] = useState("");
@@ -31,11 +32,20 @@ function Profile() {
     async function fetchUserProfile() {
       if (!currentUser) {
         navigate('/login');
-      } else {
+      } else if (path === '/Profile') {
         setUserId(currentUser.uid);
         setDisplayName(currentUser.displayName);
         setProfilePicture(currentUser.photoURL);
         setLoading(false);
+      } else {
+        console.log("fetching explored user profile")
+        let user = await APIService.getUserById(path.split("/")[2]);
+        console.log("user: ", user)
+        setUserId(user.uid);
+        setDisplayName(user.displayName);
+        setProfilePicture(user.photoURL);
+        setLoading(false);
+       
       }
     }
 
@@ -57,10 +67,9 @@ function Profile() {
       }
     }
 
-
     fetchUserProfile();
     fetchStylizedImages();
-  }, [currentUser, userId, navigate]);
+  }, [currentUser, userId, path, retrieveUser, navigate]);
 
   const handleUpdateDisplayName = async () => {
     try {
@@ -104,25 +113,140 @@ function Profile() {
       console.error(error);
     }
   };
-
-  return (
-    <Container>
-      <Container className="d-flex flex-column align-items-center">
-        {loading ? (
-          <Container className="mt-5 d-flex flex-column align-items-center">
-            <h1>Loading user...</h1>
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </Container>
-        ) : currentUser ? (
-          <Container className="mt-5 d-flex flex-column align-items-center">
-            <Row>
-              <Col>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
-                >
+  
+  if (path === '/Profile') {
+    return (
+      <Container>
+        <Container className="d-flex flex-column align-items-center">
+          {loading ? (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <h1>Loading user...</h1>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </Container>
+          ) : currentUser ? (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <Row>
+                <Col>
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
+                  >
+                    <div id="rest" style={{ width: 250, height: 'auto' }}>
+                      <Ratio aspectRatio={"1x1"}>
+                        <Image
+                          style={{
+                            objectFit: "cover", /* Do not scale the image */
+                            objectPosition: "center", /* Center the image within the element */
+                          }}
+                          src={profilePicture}
+                          roundedCircle
+                          thumbnail
+                          fluid
+                          onClick={() => setShowProfilePicModal(true)}
+                        />
+                      </Ratio>
+                    </div>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    placement="bottom"
+                    overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
+                  >
+                    <div style={{ padding: "15px 0 0 0", width: "100%", display: "flex", justifyContent: "center" }}>
+                      {/* eslint-disable-next-line */}
+                      <a style={{ justifyContent: "center" }} href="#" onClick={() => setShowDisplayNameModal(true)}>
+                        <h3 >@{displayName} </h3>
+                        {path.split("/")[2]}
+                        {/* {user_id} */}
+                      </a>
+                    </div>
+                  </OverlayTrigger>
+                </Col>
+              </Row>
+              <Modal show={showDisplayNameModal} onHide={() => { setShowDisplayNameModal(false); handleCancel() }}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Display Name</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <p>Update your profile information.</p>
+                    <Form.Group controlId="formBasicFirstName">
+                      <Form.Label>Display Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" className="mt-2" onClick={handleUpdateDisplayName}>
+                        Save
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+              <Modal show={showProfilePicModal} onHide={() => { setShowProfilePicModal(false); handleCancel() }}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Profile Picture</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="formBasicProfilePicture">
+                      <FileUpload onChange={handleProfileImageUpload} />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+            </Container>
+          ) : (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <h1>User not found.</h1>
+            </Container>
+          )}
+        </Container>
+        <>
+          <h2>Stylized Images</h2>
+          {stylizedImages?.length > 0
+            ? <>
+              <PhotoAlbum
+                photos={stylizedImages}
+                layout="columns"
+                // columns={3}
+                columns={(containerWidth) => {
+                  if (containerWidth < 400) return 1;
+                  if (containerWidth < 800) return 2;
+                  if (containerWidth < 1400) return 3;
+                  return 4;
+                }}
+                onClick={({ index }) => setLightboxIndex(index)}
+              />
+              <Lightbox
+                slides={stylizedImages}
+                open={lightboxIndex >= 0}
+                index={lightboxIndex}
+                close={() => setLightboxIndex(-1)}
+                // enable optional lightbox plugins
+                plugins={[Fullscreen]}
+              />
+            </>
+            : <p>No stylized images found.</p>
+          }
+        </>
+      </Container >
+    );
+  } else {
+    return (
+      <Container>
+        <Container className="d-flex flex-column align-items-center">
+          {loading ? (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <h1>Loading user...</h1>
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            </Container>
+          ) : currentUser ? (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <Row>
+                <Col>
                   <div id="rest" style={{ width: 250, height: 'auto' }}>
                     <Ratio aspectRatio={"1x1"}>
                       <Image
@@ -134,93 +258,84 @@ function Profile() {
                         roundedCircle
                         thumbnail
                         fluid
-                        onClick={() => setShowProfilePicModal(true)}
                       />
                     </Ratio>
                   </div>
-                </OverlayTrigger>
-                <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip id="edit-tooltip">Click to edit</Tooltip>}
-                >
                   <div style={{ padding: "15px 0 0 0", width: "100%", display: "flex", justifyContent: "center" }}>
                     {/* eslint-disable-next-line */}
-                    <a style={{ justifyContent: "center" }} href="#" onClick={() => setShowDisplayNameModal(true)}>
                       <h3 >@{displayName} </h3>
-                    </a>
-                  </div>
-                </OverlayTrigger>
-              </Col>
-            </Row>
-            <Modal show={showDisplayNameModal} onHide={() => { setShowDisplayNameModal(false); handleCancel() }}>
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Display Name</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <p>Update your profile information.</p>
-                  <Form.Group controlId="formBasicFirstName">
-                    <Form.Label>Display Name</Form.Label>
-                    <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-                  </Form.Group>
-                  <div className="d-flex justify-content-center">
-                    <Button variant="primary" className="mt-2" onClick={handleUpdateDisplayName}>
-                      Save
-                    </Button>
-                  </div>
-                </Form>
-              </Modal.Body>
-            </Modal>
-            <Modal show={showProfilePicModal} onHide={() => { setShowProfilePicModal(false); handleCancel() }}>
-              <Modal.Header closeButton>
-                <Modal.Title>Edit Profile Picture</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form>
-                  <Form.Group controlId="formBasicProfilePicture">
-                    <FileUpload onChange={handleProfileImageUpload} />
-                  </Form.Group>
-                </Form>
-              </Modal.Body>
-            </Modal>
-          </Container>
-        ) : (
-          <Container className="mt-5 d-flex flex-column align-items-center">
-            <h1>User not found.</h1>
-          </Container>
-        )}
-      </Container>
-      <>
-        <h2>Stylized Images</h2>
-        {stylizedImages?.length > 0
-          ? <>
-            <PhotoAlbum
-              photos={stylizedImages}
-              layout="columns"
-              // columns={3}
-              columns={(containerWidth) => {
-                if (containerWidth < 400) return 1;
-                if (containerWidth < 800) return 2;
-                if (containerWidth < 1400) return 3;
-                return 4;
-              }}
-              onClick={({ index }) => setLightboxIndex(index)}
-            />
-            <Lightbox
-              slides={stylizedImages}
-              open={lightboxIndex >= 0}
-              index={lightboxIndex}
-              close={() => setLightboxIndex(-1)}
-              // enable optional lightbox plugins
-              plugins={[Fullscreen]}
-            />
-          </>
-          : <p>No stylized images found.</p>
-        }
-      </>
-
-    </Container >
-  );
+                    </div>
+                </Col>
+              </Row>
+              {/* <Modal show={showDisplayNameModal} onHide={() => { setShowDisplayNameModal(false); handleCancel() }}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Display Name</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <p>Update your profile information.</p>
+                    <Form.Group controlId="formBasicFirstName">
+                      <Form.Label>Display Name</Form.Label>
+                      <Form.Control type="text" placeholder="Enter display name" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+                    </Form.Group>
+                    <div className="d-flex justify-content-center">
+                      <Button variant="primary" className="mt-2" onClick={handleUpdateDisplayName}>
+                        Save
+                      </Button>
+                    </div>
+                  </Form>
+                </Modal.Body>
+              </Modal>
+              <Modal show={showProfilePicModal} onHide={() => { setShowProfilePicModal(false); handleCancel() }}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Edit Profile Picture</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <Form>
+                    <Form.Group controlId="formBasicProfilePicture">
+                      <FileUpload onChange={handleProfileImageUpload} />
+                    </Form.Group>
+                  </Form>
+                </Modal.Body>
+              </Modal> */}
+            </Container>
+          ) : (
+            <Container className="mt-5 d-flex flex-column align-items-center">
+              <h1>User not found.</h1>
+            </Container>
+          )}
+        </Container>
+        <>
+          <h2>Stylized Images</h2>
+          {stylizedImages?.length > 0
+            ? <>
+              <PhotoAlbum
+                photos={stylizedImages}
+                layout="columns"
+                // columns={3}
+                columns={(containerWidth) => {
+                  if (containerWidth < 400) return 1;
+                  if (containerWidth < 800) return 2;
+                  if (containerWidth < 1400) return 3;
+                  return 4;
+                }}
+                onClick={({ index }) => setLightboxIndex(index)}
+              />
+              <Lightbox
+                slides={stylizedImages}
+                open={lightboxIndex >= 0}
+                index={lightboxIndex}
+                close={() => setLightboxIndex(-1)}
+                // enable optional lightbox plugins
+                plugins={[Fullscreen]}
+              />
+            </>
+            : <p>No stylized images found.</p>
+          }
+        </>
+      </Container >                     
+      );
+    }
 }
 
 export default Profile;
