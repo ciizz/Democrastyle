@@ -53,6 +53,6 @@
     "eslint-config-google": "^0.14.0",
     "eslint-plugin-react": "^7.32.2",
     "firebase-functions-test": "^3.0.0",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.22"
   }
 }
