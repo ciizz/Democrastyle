@@ -1,2 +1,2 @@
 # Democrastyle
-Capstone Project for Group 21
+https://democrastyle.art/
